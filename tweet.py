@@ -1,0 +1,36 @@
+"""
+Ten plik bierze wszystkie dane wygenerowane przez poprzednie skrypty i umieszcza je na Twitterze.
+"""
+import os
+
+# Kolejnosc wykonywania dzialan:
+
+# 1. Zdobadz klatke z Youtube.
+import randomowa_klatka
+# 2. Zdobadz cytat.
+import zdobadz_cytat
+# 3. Polacz cytat i klatke w jednym obrazie.
+import obrazek
+
+from obrazek import BibliaCytat
+cytat = BibliaCytat['cytat']
+ksiega = BibliaCytat['ksiega']
+autor = BibliaCytat['autor']
+
+status = f'Cytat na dziś!\n{ksiega} {autor}'
+
+# python-twitter
+import twitter
+api = twitter.Api(consumer_key=os.environ['consumer_key'],
+                  consumer_secret=os.environ['consumer_secret'],
+                  access_token_key=os.environ['access_token'],
+                  access_token_secret=os.environ['access_token_secret'])
+
+#api.PostUpdate(status, 'klatka_ready.jpg')
+
+print(api.VerifyCredentials)
+print(f'Twitter Test.\nstatus: {status}\n')
+
+# Posprzataj
+os.remove('klatka_ready.jpg')
+os.remove('klatka.jpg')
