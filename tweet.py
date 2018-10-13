@@ -29,6 +29,7 @@ if randomowa_klatka.on_heroku:
     access_token = os.environ['access_token']
     access_token_secret = os.environ['access_token_secret']
 else:
+    import config
     consumer_key = config.consumer_key
     consumer_secret = config.consumer_secret
     access_token = config.access_token
@@ -36,7 +37,7 @@ else:
 
 api = twitter.Api(consumer_key=consumer_key,
                   consumer_secret=consumer_secret,
-                  access_token_key=access_token_key,
+                  access_token_key=access_token,
                   access_token_secret=access_token_secret)
 
 #api.PostUpdate(status, 'klatka_ready.jpg')
