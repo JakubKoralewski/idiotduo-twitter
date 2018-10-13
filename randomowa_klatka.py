@@ -2,13 +2,13 @@
 Ten plik zdobywa randomową klatkę z filmow Idiot Duo i zapisuje ja do pliku klatka.jpg
 """
 import os
-import config
 
 on_heroku = False
 if 'api_key' in os.environ:
     on_heroku = True
     api_key = os.environ['api_key']
 else:
+    import config
     api_key = config.api_key
 
 import urllib.request
