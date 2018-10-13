@@ -18,7 +18,7 @@ cytat = BibliaCytat['cytat']
 ksiega = BibliaCytat['ksiega']
 autor = BibliaCytat['autor']
 
-status = f'Cytat na dziś!\n{ksiega} {autor}'
+status = f'Cytat na dziś!\n{ksiega}: {autor}.'
 
 # python-twitter
 import twitter
@@ -40,10 +40,9 @@ api = twitter.Api(consumer_key=consumer_key,
                   access_token_key=access_token,
                   access_token_secret=access_token_secret)
 
-#api.PostUpdate(status, 'klatka_ready.jpg')
 
 print(api.VerifyCredentials)
-print(f'Twitter Test.\nstatus: {status}\n')
+api.PostUpdate(status, 'klatka_ready.jpg')
 
 # Posprzataj
 os.remove('klatka_ready.jpg')
