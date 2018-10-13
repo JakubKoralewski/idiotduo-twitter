@@ -12,6 +12,7 @@ import zdobadz_cytat
 # 3. Polacz cytat i klatke w jednym obrazie.
 import obrazek
 
+
 from obrazek import BibliaCytat
 cytat = BibliaCytat['cytat']
 ksiega = BibliaCytat['ksiega']
@@ -21,10 +22,22 @@ status = f'Cytat na dziś!\n{ksiega} {autor}'
 
 # python-twitter
 import twitter
-api = twitter.Api(consumer_key=os.environ['consumer_key'],
-                  consumer_secret=os.environ['consumer_secret'],
-                  access_token_key=os.environ['access_token'],
-                  access_token_secret=os.environ['access_token_secret'])
+
+if randomowa_klatka.on_heroku:
+    consumer_key = os.environ['consumer_key']
+    consumer_secret = os.environ['consumer_secret']
+    access_token = os.environ['access_token']
+    access_token_secret = os.environ['access_token_secret']
+else:
+    consumer_key = config.consumer_key
+    consumer_secret = config.consumer_secret
+    access_token = config.access_token
+    access_token_secret = config.access_token_secret
+
+api = twitter.Api(consumer_key=consumer_key,
+                  consumer_secret=consumer_secret,
+                  access_token_key=access_token_key,
+                  access_token_secret=access_token_secret)
 
 #api.PostUpdate(status, 'klatka_ready.jpg')
 

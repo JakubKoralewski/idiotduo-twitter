@@ -1,4 +1,9 @@
 .vscode/
 env/
-config.py
+__pycache__/
+
 /!comic
+*.jpg
+*.json
+
+config.py

@@ -2,6 +2,15 @@
 Ten plik zdobywa randomową klatkę z filmow Idiot Duo i zapisuje ja do pliku klatka.jpg
 """
 import os
+import config
+
+on_heroku = False
+if 'api_key' in os.environ:
+    on_heroku = True
+    api_key = os.environ['api_key']
+else:
+    api_key = config.api_key
+
 import urllib.request
 import json
 import random
@@ -9,7 +18,7 @@ import youtube_dl
 from ffmpy import FFmpeg
 
 url = 'https://www.googleapis.com/youtube/v3/playlistItems?playlistId=UUIc8KwlF3e3-GW4Y1p0X6tQ&key=' + \
-    os.environ['api_key'] + '&part=snippet&maxResults=50'
+    api_key + '&part=snippet&maxResults=50'
 
 jestNastepnaStrona = None
 nextPageToken = None
@@ -30,7 +39,7 @@ def zdobadzJSON(*args):
         try:
             # JEŚLI BĘDZIEMY MIEĆ WIĘCEJ NIŻ 50 FILMÓW
             # należy szukać nextPageToken, otworzyć go i dodać więcej id
-            print('Probuje zdobyc nastepna strone.')
+            print('Patrze czy jest nastepna strona.')
             nextPageToken = data['nextPageToken']
             jestNastepnaStrona = True
         except KeyError:
@@ -52,9 +61,6 @@ def zdobadzId(itemy):
 
 data = zdobadzJSON()
 
-
-with open('playlistitems.json', 'r', encoding='UTF-8') as f:
-    data = json.load(f)
 
 ids = []
 
