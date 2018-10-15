@@ -5,6 +5,7 @@ Ten plik bierze cytat i obrazek, a nastepnie dodaje go do obrazka.
 from zdobadz_cytat import BibliaCytat
 import random
 
+
 def narysujObrys(text, x, y, outlineSize, font):
     draw.text((x-outlineSize, y-outlineSize), text, font=font, fill="black")
     draw.text((x+outlineSize, y-outlineSize), text, font=font, fill="black")
@@ -15,10 +16,12 @@ def narysujObrys(text, x, y, outlineSize, font):
     draw.text((x, y+outlineSize), text, font=font, fill="black")
     draw.text((x, y-outlineSize), text, font=font, fill="black")
 
+
 print(BibliaCytat)
 cytat = BibliaCytat['cytat']
 autor = BibliaCytat['autor']
 ksiega = BibliaCytat['ksiega']
+
 
 import PIL
 import PIL.Image as Image
@@ -37,7 +40,7 @@ print(f'cytat: {cytat}')
 fontSize = 1  # starting font size
 
 # portion of image width you want text width to be
-imgFraction = 0.80
+imgFraction = 0.85
 
 font = ImageFont.truetype("comic/comic.ttf", fontSize)
 while font.getsize(cytatLista[0])[0] < imgFraction * img.width:
@@ -45,12 +48,22 @@ while font.getsize(cytatLista[0])[0] < imgFraction * img.width:
     fontSize += 1
     font = ImageFont.truetype("comic/comic.ttf", fontSize)
 
-randColor = tuple([random.randint(50, 255) for i in range(3)])
+randColor = tuple([random.randint(80, 255) for i in range(3)])
 
 # zaczynamy pisanie
 
+# wysrodkuj na osi y
+# ilosc linii
+iloscLinii = len(cytatLista)
+# wysokosc pojedynczej linii
+pojWysokosc = font.getsize(cytatLista[0])[1]
+calaWysokosc = pojWysokosc * iloscLinii
+srodkowaWysokosc = height/2 - calaWysokosc/2
+
+print(pojWysokosc)
+
 # pisz cytat
-offset = img.height/3
+offset = srodkowaWysokosc
 outlineSize = 3
 for line in textwrap.wrap(cytat, width=40):
 
