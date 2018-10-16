@@ -3,79 +3,16 @@ Ten plik zdobywa randomową klatkę z filmow Idiot Duo i zapisuje ja do pliku kl
 """
 import os
 
-on_heroku = False
-if 'api_key' in os.environ:
-    on_heroku = True
-    api_key = os.environ['api_key']
-else:
-    import config
-    api_key = config.api_key
-
-import urllib.request
-import json
 import random
 import youtube_dl
 from ffmpy import FFmpeg
 
-url = 'https://www.googleapis.com/youtube/v3/playlistItems?playlistId=UUIc8KwlF3e3-GW4Y1p0X6tQ&key=' + \
-    api_key + '&part=snippet&maxResults=50'
-
-jestNastepnaStrona = None
-nextPageToken = None
-
-
-def zdobadzJSON(*args):
-    try:
-        #print('Probuje zdobyc token.')
-        token = args[0]
-        pageToken = f'&token={token}'
-    except:
-        print('Brak tokena.')
-        pageToken = ''
-
-    with urllib.request.urlopen(url+pageToken) as page:
-        print('Zbieram liste filmow.')
-        data = json.loads(page.read().decode())
-        try:
-            # JEŚLI BĘDZIEMY MIEĆ WIĘCEJ NIŻ 50 FILMÓW
-            # należy szukać nextPageToken, otworzyć go i dodać więcej id
-            print('Patrze czy jest nastepna strona.')
-            nextPageToken = data['nextPageToken']
-            jestNastepnaStrona = True
-        except KeyError:
-            print('Jest tylko jedna strona.')
-            jestNastepnaStrona = False
-
-        return data
-
-
-def zdobadzId(itemy):
-    for film in itemy:
-        id = film['snippet']['resourceId']['videoId']
-        ids.append(id)
-    if jestNastepnaStrona:
-        print('Biorę id z następnej strony.')
-        data = zdobadzJSON(nextPageToken)
-        zdobadzId(data['items'])
-
-
-data = zdobadzJSON()
-
-
-ids = []
-
-zdobadzId(data['items'])
-print('ids: ', ids)
+from ids import ids
 
 wybranyFilm = random.choice(ids)
 
 ydl_opts = {
-    'format': 'bestvideo/best',
-    'outtmpl': 'klatka.jpg',
-    'external_downloader': 'ffmpeg.exe',
-    'external_downloader_args': None,
-    'verbose': True,
-    'debug_printtraffic': True
+    'format': '(bestvideo/best)[protocol!=http_dash_segments]'
 }
 ydl = youtube_dl.YoutubeDL(ydl_opts)
 
@@ -86,8 +23,11 @@ with ydl:
 
 losowyCzas = random.uniform(0, dlugosc)
 
+user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
+inputs = '-y -user_agent {user_agent}'
+
 ff = FFmpeg(
-    inputs={urlPliku: '-y'},
+    inputs={urlPliku: inputs},
     outputs={'klatka.jpg': f'-ss {losowyCzas:.2f} -vframes 1 -q:v 2'}
 )
 
