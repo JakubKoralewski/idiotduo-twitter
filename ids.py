@@ -1,5 +1,6 @@
 import urllib.request
 import json
+import os
 
 on_heroku = False
 if 'api_key' in os.environ:
