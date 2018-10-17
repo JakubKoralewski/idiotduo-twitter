@@ -23,7 +23,7 @@ status = f'Cytat na dziś!\n{ksiega}: {autor}.'
 # python-twitter
 import twitter
 
-if randomowa_klatka.on_heroku:
+if ids.on_heroku:
     consumer_key = os.environ['consumer_key']
     consumer_secret = os.environ['consumer_secret']
     access_token = os.environ['access_token']
