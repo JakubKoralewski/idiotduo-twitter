@@ -12,7 +12,7 @@ import zdobadz_cytat
 # 3. Polacz cytat i klatke w jednym obrazie.
 import obrazek
 
-
+# 4. Zdobadz cytat z obrazka.py
 from obrazek import BibliaCytat
 cytat = BibliaCytat['cytat']
 ksiega = BibliaCytat['ksiega']
@@ -43,6 +43,7 @@ api = twitter.Api(consumer_key=consumer_key,
 
 
 print(api.VerifyCredentials)
+print(randomowa_klatka.)
 api.PostUpdate(status, 'klatka_ready.jpg')
 
 # Posprzataj

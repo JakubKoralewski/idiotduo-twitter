@@ -1,4 +1,5 @@
 import urllib.request
+import urllib3.exceptions
 import json
 import os
 
@@ -25,19 +26,24 @@ def zdobadzJSON(*args):
     except:
         print('Brak tokena.')
         pageToken = ''
-
-    with urllib.request.urlopen(url+pageToken) as page:
-        print('Zbieram liste filmow.')
-        data = json.loads(page.read().decode())
+    max_proby = 3
+    proby = 0
+    while proby < max_proby:
         try:
-            # JEŚLI BĘDZIEMY MIEĆ WIĘCEJ NIŻ 50 FILMÓW
-            # należy szukać nextPageToken, otworzyć go i dodać więcej id
-            print('Patrze czy jest nastepna strona.')
-            nextPageToken = data['nextPageToken']
-            jestNastepnaStrona = True
-        except KeyError:
-            print('Jest tylko jedna strona.')
-            jestNastepnaStrona = False
+            with urllib.request.urlopen(url+pageToken) as page:
+                print('Zbieram liste filmow.')
+                data = json.loads(page.read().decode())
+                try:
+                    # JEŚLI BĘDZIEMY MIEĆ WIĘCEJ NIŻ 50 FILMÓW
+                    # należy szukać nextPageToken, otworzyć go i dodać więcej id
+                    print('Patrze czy jest nastepna strona.')
+                    nextPageToken = data['nextPageToken']
+                    jestNastepnaStrona = True
+                except KeyError:
+                    print('Jest tylko jedna strona.')
+                    jestNastepnaStrona = False
+        except urllib3.exceptions.ProtocolError:
+            proby += 1
 
         return data
 
