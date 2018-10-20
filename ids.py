@@ -28,7 +28,8 @@ def zdobadzJSON(*args):
         pageToken = ''
     max_proby = 3
     proby = 0
-    while proby < max_proby:
+    sprobuj_ponownie = False
+    while proby < max_proby and sprobuj_ponownie:
         try:
             with urllib.request.urlopen(url+pageToken) as page:
                 print('Zbieram liste filmow.')
@@ -45,8 +46,9 @@ def zdobadzJSON(*args):
         except urllib3.exceptions.ProtocolError:
             print(
                 f'urllib3.exceptions.ProtocolError, proby({proby}) += 1 ({proby + 1})')
+            sprobuj_ponownie = True
             proby += 1
-
+        sprobuj_ponownie = False
         return data
 
 
