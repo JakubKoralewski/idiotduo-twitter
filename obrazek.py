@@ -33,7 +33,7 @@ img = Image.open('klatka.jpg')
 width, height = img.size
 draw = ImageDraw.Draw(img)
 
-cytatLista = textwrap.wrap(cytat, width=40)
+cytatLista = textwrap.wrap(cytat, width=40, fix_sentence_endings=True)
 
 print(f'cytat: {cytat}')
 
@@ -43,7 +43,15 @@ fontSize = 1  # starting font size
 imgFraction = 0.85
 
 font = ImageFont.truetype("comic/comic.ttf", fontSize)
-while font.getsize(cytatLista[0])[0] < imgFraction * img.width:
+
+# zdobadz najdluzsza linie w tekscie
+najdluzszyCytat = cytatLista[0]
+for line in cytatLista:
+    if font.getsize(line)[0] > font.getsize(najdluzszyCytat)[0]:
+        najdluzszyCytat = line
+
+
+while font.getsize(najdluzszyCytat)[0] < imgFraction * img.width:
     # iterate until the text size is just larger than the criteria
     fontSize += 1
     font = ImageFont.truetype("comic/comic.ttf", fontSize)
