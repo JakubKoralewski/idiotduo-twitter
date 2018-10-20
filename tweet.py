@@ -43,7 +43,7 @@ api = twitter.Api(consumer_key=consumer_key,
 
 
 print(api.VerifyCredentials)
-print(randomowa_klatka.)
+print(f'randomowa_klatka.losowyCzas: {randomowa_klatka.losowyCzas}')
 api.PostUpdate(status, 'klatka_ready.jpg')
 
 # Posprzataj
