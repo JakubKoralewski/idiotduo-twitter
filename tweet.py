@@ -42,8 +42,9 @@ api = twitter.Api(consumer_key=consumer_key,
                   access_token_secret=access_token_secret)
 
 
-print(api.VerifyCredentials)
-print(f'randomowa_klatka.losowyCzas: {randomowa_klatka.losowyCzas}')
+# print(api.VerifyCredentials)
+print(
+    f'randomowa_klatka.wybranyFilm: {randomowa_klatka.wybranyFilm},\nrandomowa_klatka.dlugosc: {randomowa_klatka.dlugosc},\nrandomowa_klatka.losowyCzas: {randomowa_klatka.losowyCzas}')
 api.PostUpdate(status, 'klatka_ready.jpg')
 
 # Posprzataj
