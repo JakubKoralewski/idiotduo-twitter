@@ -42,8 +42,8 @@ def zdobadzJSON(*args):
                     print('Jest tylko jedna strona.')
                     jestNastepnaStrona = False
         except urllib3.exceptions.ProtocolError:
-            print(
-                f'caught urllib3.exceptions.ProtocolError, trying again!')
+            print(f'caught urllib3.exceptions.ProtocolError, trying again!')
+            continue
         return data
 
 
