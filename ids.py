@@ -43,7 +43,7 @@ def zdobadzJSON(*args):
                     jestNastepnaStrona = False
         except urllib3.exceptions.ProtocolError:
             print(
-                f'urllib3.exceptions.ProtocolError, proby({proby}) += 1 ({proby + 1})')
+                f'caught urllib3.exceptions.ProtocolError, trying again!')
         return data
 
 
