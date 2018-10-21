@@ -4,6 +4,11 @@ Ten plik bierze cytat i obrazek, a nastepnie dodaje go do obrazka.
 
 from zdobadz_cytat import BibliaCytat
 import random
+import PIL
+import PIL.Image as Image
+import PIL.ImageDraw as ImageDraw
+import PIL.ImageFont as ImageFont
+import textwrap
 
 
 def narysujObrys(text, x, y, outlineSize, font):
@@ -17,17 +22,26 @@ def narysujObrys(text, x, y, outlineSize, font):
     draw.text((x, y-outlineSize), text, font=font, fill="black")
 
 
+def sumaWysokosc(lista: [], font: ImageFont.truetype) -> int or float:
+    sumaWysokosc = 0
+    for item in lista:
+        sumaWysokosc += font.getsize(item)[1]
+    return sumaWysokosc
+
+
+# testowy cytat
+""" BibliaCytat = {
+    'cytat': '" ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki! ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!"',
+    'autor': 'Jakub Koralewski',
+    'ksiega': '69, XD'
+} """
+
+
 print(BibliaCytat)
 cytat = BibliaCytat['cytat']
 autor = BibliaCytat['autor']
 ksiega = BibliaCytat['ksiega']
 
-
-import PIL
-import PIL.Image as Image
-import PIL.ImageDraw as ImageDraw
-import PIL.ImageFont as ImageFont
-import textwrap
 
 img = Image.open('klatka.jpg')
 width, height = img.size
@@ -51,7 +65,7 @@ for line in cytatLista:
         najdluzszyCytat = line
 
 
-while font.getsize(najdluzszyCytat)[0] < imgFraction * img.width:
+while font.getsize(najdluzszyCytat)[0] < imgFraction * img.width and sumaWysokosc(cytatLista, font) < imgFraction * img.height:
     # iterate until the text size is just larger than the criteria
     fontSize += 1
     font = ImageFont.truetype("comic/comic.ttf", fontSize)
@@ -61,14 +75,10 @@ randColor = tuple([random.randint(80, 255) for i in range(3)])
 # zaczynamy pisanie
 
 # wysrodkuj na osi y
-# ilosc linii
-iloscLinii = len(cytatLista)
-# wysokosc pojedynczej linii
-pojWysokosc = font.getsize(cytatLista[0])[1]
-calaWysokosc = pojWysokosc * iloscLinii
+calaWysokosc = sumaWysokosc(cytatLista, font)
 srodkowaWysokosc = height/2 - calaWysokosc/2
 
-print(pojWysokosc)
+print(f'img height: {img.height}, img.width: {img.width}, font: {font.size}, calaWysokosc: {calaWysokosc}, srodkowaWysokosc: {srodkowaWysokosc}')
 
 # pisz cytat
 offset = srodkowaWysokosc
