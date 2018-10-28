@@ -2,6 +2,7 @@ import urllib.request
 import urllib3.exceptions
 import json
 import os
+from time import sleep
 
 on_heroku = False
 if 'api_key' in os.environ:
@@ -43,6 +44,7 @@ def zdobadzJSON(*args):
                     jestNastepnaStrona = False
         except urllib3.exceptions.ProtocolError:
             print(f'caught urllib3.exceptions.ProtocolError, trying again!')
+            sleep(5)
             continue
         return data
 

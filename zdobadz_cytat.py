@@ -17,3 +17,11 @@ with driver:
         'ksiega': ksiega.text
     }
 
+import re
+# Wyszukaj « » i dodaj na poczatek lub koniec jesli znajduje sie tylko jeden ALBO usuń?
+# np.:
+"""
+“ Dobra jest sól; lecz jeśli nawet sól smak swój utraci, to czymże ją zaprawić? 
+Nie nadaje się ani do ziemi, ani do nawozu; precz się ją wyrzuca. Kto ma uszy do słuchania, niechaj słucha!» ”
+"""
+# into
