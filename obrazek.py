@@ -4,7 +4,7 @@ Ten plik bierze cytat i obrazek, a nastepnie dodaje go do obrazka.
 try:
     # special error for testing
     #from zdobadz_cytat import BibliaCytat
-    from zdobadz_cytat import BibliaCytatx
+    from zdobadz_cytat import BibliaCytat
     slownik_z_cytatem = BibliaCytat
 except:
     from slowo_na_dzis import slowo_na_dzis
