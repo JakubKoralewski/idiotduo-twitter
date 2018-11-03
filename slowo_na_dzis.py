@@ -9,7 +9,7 @@ slowo_na_dzis = random.choice(slowo_na_dzis)
 print(slowo_na_dzis)
 
 
-BibliaCytat = {
+slowo_na_dzis = {
         'cytat': f'{slowo_na_dzis["opis"]}',
         'autor': slowo_na_dzis["autor"],
         'tytul': slowo_na_dzis["tytul"],
