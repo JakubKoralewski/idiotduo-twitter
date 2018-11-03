@@ -8,17 +8,21 @@ import os
 # 1. Zdobadz klatke z Youtube.
 import randomowa_klatka
 # 2. Zdobadz cytat.
-import zdobadz_cytat
+#import zdobadz_cytat
 # 3. Polacz cytat i klatke w jednym obrazie.
 import obrazek
 
 # 4. Zdobadz cytat z obrazka.py
-from obrazek import BibliaCytat
-cytat = BibliaCytat['cytat']
-ksiega = BibliaCytat['ksiega']
-autor = BibliaCytat['autor']
+from obrazek import slownik_z_cytatem
+z = slownik_z_cytatem['z']
+ksiega = slownik_z_cytatem['ksiega']
+autor = slownik_z_cytatem['autor']
 
-status = f'Cytat na dziś!\n{ksiega}: {autor}.'
+if z == 'zdobadz_cytat':
+    status = f'Cytat na dziś!\n{ksiega}: {autor}.'
+elif z == 'slowo_na_dzis':
+    slowo_na_dzis = slownik_z_cytatem['tytul']
+    status = f'Słowo na dzis! Dzisiejsze słowo to: {slowo_na_dzis}!'
 
 # python-twitter
 import twitter

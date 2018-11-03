@@ -14,10 +14,11 @@ with driver:
     BibliaCytat = {
         'cytat': cytat.text,
         'autor': autor.text,
-        'ksiega': ksiega.text
+        'ksiega': ksiega.text,
+        'z': 'zdobadz_cytat'
     }
 
-import re
+#import re
 # Wyszukaj « » i dodaj na poczatek lub koniec jesli znajduje sie tylko jeden ALBO usuń?
 # np.:
 """
