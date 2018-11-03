@@ -5,8 +5,10 @@ try:
     # special error for testing
     #from zdobadz_cytat import BibliaCytat
     from zdobadz_cytat import BibliaCytatx
+    slownik_z_cytatem = BibliaCytat
 except:
     from slowo_na_dzis import slowo_na_dzis
+    slownik_z_cytatem = slowo_na_dzis
 import random
 import PIL
 import PIL.Image as Image
@@ -14,7 +16,7 @@ import PIL.ImageDraw as ImageDraw
 import PIL.ImageFont as ImageFont
 import textwrap
 
-slownik_z_cytatem = BibliaCytat or slowo_na_dzis
+
 
 def narysujObrys(text, x, y, outlineSize, font):
     draw.text((x-outlineSize, y-outlineSize), text, font=font, fill="black")
