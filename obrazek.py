@@ -17,7 +17,6 @@ import PIL.ImageFont as ImageFont
 import textwrap
 
 
-
 def narysujObrys(text, x, y, outlineSize, font):
     draw.text((x-outlineSize, y-outlineSize), text, font=font, fill="black")
     draw.text((x+outlineSize, y-outlineSize), text, font=font, fill="black")
@@ -49,8 +48,13 @@ cytat = slownik_z_cytatem['cytat']
 autor = slownik_z_cytatem['autor']
 ksiega = slownik_z_cytatem['ksiega']
 
-
-img = Image.open('klatka.jpg')
+try:
+    img = Image.open('klatka.jpg')
+except FileNotFoundError:
+    # randomowa_klatka.py fail
+    # sprobuj ponownie
+    import randomowa_klatka
+    img = Image.open('klatka.jpg')
 width, height = img.size
 draw = ImageDraw.Draw(img)
 

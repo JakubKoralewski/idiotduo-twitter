@@ -23,6 +23,10 @@ with ydl:
 
 losowyCzas = random.uniform(0, dlugosc)
 
+print(f'Calkowita dlugosc = {dlugosc}\nWybrana dlugosc = {losowyCzas}')
+
+assert 0 <= losowyCzas <= dlugosc, 'Randomowo wybrany losowyCzas nie zawiera sie w przedziale <0;dlugosc>'
+
 user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
 inputs = '-y -user_agent {user_agent}'
 
