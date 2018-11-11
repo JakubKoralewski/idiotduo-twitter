@@ -22,7 +22,7 @@ if z == 'zdobadz_cytat':
     status = f'Cytat na dziś!\n{ksiega}: {autor}.'
 elif z == 'slowo_na_dzis':
     slowo_na_dzis = slownik_z_cytatem['tytul']
-    status = f'Słowo na dzis! Dzisiejsze słowo to: {slowo_na_dzis}!'
+    status = f'Słowo na dziś! Dzisiejsze słowo to: {slowo_na_dzis}!\nAutor: {autor}.'
 
 # python-twitter
 import twitter

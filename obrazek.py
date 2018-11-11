@@ -110,7 +110,7 @@ for line in textwrap.wrap(cytat, width=40):
     offset += font.getsize(line)[1]
 
 # pisz autor+ksiega w prawym dolnym rogu
-smallFontSize = int(fontSize / 2)
+""" smallFontSize = int(fontSize / 2)
 smallFont = ImageFont.truetype("comic/comici.ttf", smallFontSize)
 smallText = f'{ksiega} {autor}'
 smallMargin = 30
@@ -118,6 +118,6 @@ w, h = draw.textsize(smallText, smallFont)
 x = img.width - w - smallMargin
 y = img.height - h - smallMargin
 narysujObrys(smallText, x, y, round(outlineSize/2, 0), smallFont)
-draw.text((x, y), smallText, font=smallFont, fill=randColor)
+draw.text((x, y), smallText, font=smallFont, fill=randColor) """
 
 img.save('klatka_ready.jpg')
