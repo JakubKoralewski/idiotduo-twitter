@@ -10,9 +10,9 @@ print(slowo_na_dzis)
 
 
 slowo_na_dzis = {
-        'cytat': f'{slowo_na_dzis["opis"]}',
-        'autor': slowo_na_dzis["autor"],
-        'tytul': slowo_na_dzis["tytul"],
-        'ksiega': '',
-        'z': 'slowo_na_dzis'
+    'cytat': f'{slowo_na_dzis["tytul"]} {slowo_na_dzis["opis"]}',
+    'autor': slowo_na_dzis["autor"],
+    'tytul': slowo_na_dzis["tytul"],
+    'ksiega': '',
+    'z': 'slowo_na_dzis'
 }
