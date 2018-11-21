@@ -58,7 +58,7 @@ draw = ImageDraw.Draw(img)
 
 print(f'cytat: {cytat}')
 
-fontSize = 1  # starting font size
+
 
 # portion of image width you want text width to be
 imgFraction = 0.85
@@ -83,13 +83,13 @@ VIDEO_RATIO = 1920/1080  # =~ 1.8
 ratio_sensitivity = 0.4
 obecna_szerokosc_linii = 40
 
-
 def wielkosc_czcionki():
     global cytatLista
     global font
     najdluzszyCytat = znajd_najdluzszy_cytat(cytatLista)
     szerokosc_najdluzszej = font.getsize(najdluzszyCytat)[0]
     wysokosc = sumaWysokosc(cytatLista, font)
+    fontSize = 1
 
     while szerokosc_najdluzszej < ratio_szerokosc and wysokosc < ratio_wysokosc:
         szerokosc_najdluzszej = font.getsize(najdluzszyCytat)[0]
