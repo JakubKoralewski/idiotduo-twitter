@@ -58,12 +58,10 @@ draw = ImageDraw.Draw(img)
 
 print(f'cytat: {cytat}')
 
-
-
 # portion of image width you want text width to be
 imgFraction = 0.85
 
-font = ImageFont.truetype("comic/comic.ttf", fontSize)
+font = ImageFont.truetype("comic/comic.ttf", 1)
 
 cytatLista = textwrap.wrap(cytat, width=40, fix_sentence_endings=True)
 
@@ -82,6 +80,7 @@ ratio_wysokosc = imgFraction * img.height
 VIDEO_RATIO = 1920/1080  # =~ 1.8
 ratio_sensitivity = 0.4
 obecna_szerokosc_linii = 40
+
 
 def wielkosc_czcionki():
     global cytatLista
