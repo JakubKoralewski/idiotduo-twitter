@@ -79,7 +79,7 @@ while font.getsize(najdluzszyCytat)[0] < imgFraction * img.width and sumaWysokos
     fontSize += 1
     font = ImageFont.truetype("comic/comic.ttf", fontSize)
 
-randColor = tuple([random.randint(80, 255) for i in range(3)])
+randColor = tuple([random.randint(100, 255) for i in range(3)])
 
 # zaczynamy pisanie
 
