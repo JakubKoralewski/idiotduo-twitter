@@ -85,6 +85,7 @@ obecna_szerokosc_linii = 40
 
 
 def wielkosc_czcionki():
+    global cytatLista
     najdluzszyCytat = znajd_najdluzszy_cytat(cytatLista)
     szerokosc_najdluzszej = font.getsize(najdluzszyCytat)[0]
     wysokosc_najdluzszej = sumaWysokosc(cytatLista, font)
