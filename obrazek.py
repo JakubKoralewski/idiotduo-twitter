@@ -89,7 +89,7 @@ def wielkosc_czcionki():
     global font
     najdluzszyCytat = znajd_najdluzszy_cytat(cytatLista)
     szerokosc_najdluzszej = font.getsize(najdluzszyCytat)[0]
-    wysokosc_najdluzszej = sumaWysokosc(cytatLista, font)
+    wysokosc = sumaWysokosc(cytatLista, font)
 
     while szerokosc_najdluzszej < ratio_szerokosc and wysokosc < ratio_wysokosc:
         szerokosc_najdluzszej = font.getsize(najdluzszyCytat)[0]
