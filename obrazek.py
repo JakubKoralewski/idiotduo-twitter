@@ -56,8 +56,6 @@ except FileNotFoundError:
 width, height = img.size
 draw = ImageDraw.Draw(img)
 
-cytatLista = textwrap.wrap(cytat, width=40, fix_sentence_endings=True)
-
 print(f'cytat: {cytat}')
 
 fontSize = 1  # starting font size
@@ -67,17 +65,47 @@ imgFraction = 0.85
 
 font = ImageFont.truetype("comic/comic.ttf", fontSize)
 
-# zdobadz najdluzsza linie w tekscie
-najdluzszyCytat = cytatLista[0]
-for line in cytatLista:
-    if font.getsize(line)[0] > font.getsize(najdluzszyCytat)[0]:
-        najdluzszyCytat = line
+cytatLista = textwrap.wrap(cytat, width=40, fix_sentence_endings=True)
 
 
-while font.getsize(najdluzszyCytat)[0] < imgFraction * img.width and sumaWysokosc(cytatLista, font) < imgFraction * img.height:
-    # iterate until the text size is just larger than the criteria
-    fontSize += 1
-    font = ImageFont.truetype("comic/comic.ttf", fontSize)
+def znajd_najdluzszy_cytat(lista: [str]) -> str:
+    """Znajduje najdluzszy tekst w dostarczonej liscie."""
+    najdluzszy = lista[0]
+    for line in lista:
+        if font.getsize(line)[0] > font.getsize(najdluzszy)[0]:
+            najdluzszy = line
+    return najdluzszy
+
+
+ratio_szerokosc = imgFraction * img.width
+ratio_wysokosc = imgFraction * img.height
+VIDEO_RATIO = 1920/1080  # =~ 1.8
+ratio_sensitivity = 0.4
+obecna_szerokosc_linii = 40
+
+
+def wielkosc_czcionki():
+    najdluzszyCytat = znajd_najdluzszy_cytat(cytatLista)
+    szerokosc_najdluzszej = font.getsize(najdluzszyCytat)[0]
+    wysokosc_najdluzszej = sumaWysokosc(cytatLista, font)
+
+    while szerokosc_najdluzszej < ratio_szerokosc and wysokosc < ratio_wysokosc:
+        szerokosc_najdluzszej = font.getsize(najdluzszyCytat)[0]
+        wysokosc = sumaWysokosc(cytatLista, font)
+        # iterate until the text size is just larger than the criteria
+        fontSize += 1
+        font = ImageFont.truetype("comic/comic.ttf", fontSize)
+
+    if not VIDEO_RATIO - ratio_sensitivity < szerokosc_najdluzszej / wysokosc:
+        obecna_szerokosc_linii += 5
+        cytatLista = textwrap.wrap(
+            cytat, width=obecna_szerokosc_linii, fix_sentence_endings=True)
+        fontSize = wielkosc_czcionki()
+
+    return fontSize
+
+
+fontSize = wielkosc_czcionki()
 
 randColor = tuple([random.randint(100, 255) for i in range(3)])
 
