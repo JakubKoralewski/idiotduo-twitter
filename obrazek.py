@@ -38,15 +38,13 @@ def sumaWysokosc(lista: [], font: ImageFont.truetype) -> int or float:
 # testowy cytat
 """ BibliaCytat = {
     'cytat': '" ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki! ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!"',
-    'autor': 'Jakub Koralewski',
-    'ksiega': '69, XD'
+    'autor': 'Jakub Koralewski'
 } """
 
 
 print(slownik_z_cytatem)
 cytat = slownik_z_cytatem['cytat']
 autor = slownik_z_cytatem['autor']
-ksiega = slownik_z_cytatem['ksiega']
 
 try:
     img = Image.open('klatka.jpg')
@@ -108,16 +106,5 @@ for line in textwrap.wrap(cytat, width=40):
 
     draw.text((x, y), line, font=font, fill=randColor)
     offset += font.getsize(line)[1]
-
-# pisz autor+ksiega w prawym dolnym rogu
-""" smallFontSize = int(fontSize / 2)
-smallFont = ImageFont.truetype("comic/comici.ttf", smallFontSize)
-smallText = f'{ksiega} {autor}'
-smallMargin = 30
-w, h = draw.textsize(smallText, smallFont)
-x = img.width - w - smallMargin
-y = img.height - h - smallMargin
-narysujObrys(smallText, x, y, round(outlineSize/2, 0), smallFont)
-draw.text((x, y), smallText, font=smallFont, fill=randColor) """
 
 img.save('klatka_ready.jpg')
