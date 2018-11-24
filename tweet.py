@@ -37,7 +37,8 @@ elif z == 'slowo_na_dzis':
 if is_base64:
     import sys
     from base64 import b64encode
-    sys.exit(b64encode(open('klatka_ready.jpg', 'rb').read()))
+    print(b64encode(open('klatka_ready.jpg', 'rb').read()), file=sys.stderr)
+    sys.exit(0)
 
 # python-twitter
 import twitter
