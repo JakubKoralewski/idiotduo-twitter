@@ -2,6 +2,15 @@
 Ten plik bierze wszystkie dane wygenerowane przez poprzednie skrypty i umieszcza je na Twitterze.
 """
 import os
+import argparse
+
+parser = argparse.ArgumentParser(description='Wytweetuj obrazek.')
+#parser.add_argument('--base64', type=bool, nargs='?', default=False, const=True, help='wypluj obrazek w base64')
+parser.add_argument('--base64', action='store_true',
+                    help='wypluj obrazek w base64')
+args = parser.parse_args()
+is_base64 = args.base64
+
 
 # Kolejnosc wykonywania dzialan:
 
@@ -24,6 +33,11 @@ if z == 'zdobadz_cytat':
 elif z == 'slowo_na_dzis':
     slowo_na_dzis = slownik_z_cytatem['tytul']
     status = f'Słowo na dziś!\nDzisiejsze słowo to: "{slowo_na_dzis}"! Autor: {autor}.'
+
+if is_base64:
+    import sys
+    from base64 import b64encode
+    sys.exit(b64encode(open('klatka_ready.jpg', 'rb').read()))
 
 # python-twitter
 import twitter
