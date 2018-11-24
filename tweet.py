@@ -8,6 +8,7 @@ parser = argparse.ArgumentParser(description='Wytweetuj obrazek.')
 #parser.add_argument('--base64', type=bool, nargs='?', default=False, const=True, help='wypluj obrazek w base64')
 parser.add_argument('--base64', action='store_true',
                     help='wypluj obrazek w base64')
+parser.add_argument('--string', action='store_value', type=int, help='sprecyzuj wybrany te')
 args = parser.parse_args()
 is_base64 = args.base64
 
