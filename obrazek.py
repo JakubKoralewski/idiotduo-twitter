@@ -96,6 +96,8 @@ def wielkosc_czcionki(**kwargs) -> (int and []):
     'autor': 'Jakub Koralewski'
 } """
 
+slownik_z_cytatem = None
+
 
 def zapisz_obrazek(**kwargs):
     """
