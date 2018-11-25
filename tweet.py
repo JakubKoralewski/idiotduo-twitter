@@ -3,14 +3,24 @@ Ten plik bierze wszystkie dane wygenerowane przez poprzednie skrypty i umieszcza
 """
 import os
 import argparse
+import random
+import string
 
 parser = argparse.ArgumentParser(description='Wytweetuj obrazek.')
 #parser.add_argument('--base64', type=bool, nargs='?', default=False, const=True, help='wypluj obrazek w base64')
 parser.add_argument('--base64', action='store_true',
                     help='wypluj obrazek w base64')
-parser.add_argument('--string', action='store_value', type=int, help='sprecyzuj wybrany te')
+parser.add_argument('--string', help='sprecyzuj wybrany tekst (int or str)')
 args = parser.parse_args()
 is_base64 = args.base64
+string_info = args.string_info
+
+if not isinstance(string_info, str):
+    string = ''.join(random.choices(string.digits + string.ascii_letters + ' ', k=string_info))
+else:
+    string = string_info
+
+print(f'string: {string}')
 
 
 # Kolejnosc wykonywania dzialan:
@@ -21,18 +31,18 @@ import randomowa_klatka
 #import zdobadz_cytat
 # 3. Polacz cytat i klatke w jednym obrazie.
 import obrazek
+obrazek.zapisz_obrazek(cytat=string)
+
 
 # 4. Zdobadz cytat z obrazka.py
-from obrazek import slownik_z_cytatem
-z = slownik_z_cytatem['z']
-
-autor = slownik_z_cytatem['autor']
+z = obrazek.slownik_z_cytatem['z']
+autor = obrazek.slownik_z_cytatem['autor']
 
 if z == 'zdobadz_cytat':
-    ksiega = slownik_z_cytatem['ksiega']
+    ksiega = obrazek.slownik_z_cytatem['ksiega']
     status = f'Cytat na dziś!\n{ksiega}: {autor}.'
 elif z == 'slowo_na_dzis':
-    slowo_na_dzis = slownik_z_cytatem['tytul']
+    slowo_na_dzis = obrazek.slownik_z_cytatem['tytul']
     status = f'Słowo na dziś!\nDzisiejsze słowo to: "{slowo_na_dzis}"! Autor: {autor}.'
 
 if is_base64:
