@@ -8,12 +8,17 @@ import string
 
 parser = argparse.ArgumentParser(description='Wytweetuj obrazek.')
 #parser.add_argument('--base64', type=bool, nargs='?', default=False, const=True, help='wypluj obrazek w base64')
-parser.add_argument('--base64', action='store_true',
-                    help='wypluj obrazek w base64')
-parser.add_argument('--string', help='sprecyzuj wybrany tekst (int or str)')
+parser.add_argument('--base64','-b64', action='store_true',
+                    help='wypluj obrazek w base64 (dla testow na heroku)')
+parser.add_argument('--string', '-s', help='sprecyzuj wybrany tekst (int or str)')
+parser.add_argument('--test', '-t', action='store_true', help='dla testow lokalnych')
 args = parser.parse_args()
 is_base64 = args.base64
 string_info = args.string
+is_test = args.test
+
+if is_test and is_base64:
+    raise Exception(f"Nie mozesz jednoczesnie testowac lokalnie i na heroku!\nis_test = {is_test}, is_base64 = {is_base64}")
 
 if not isinstance(string_info, str):
     string = ''.join(random.choices(string.digits + string.ascii_letters + ' ', k=string_info))
@@ -49,6 +54,12 @@ if is_base64:
     import sys
     from base64 import b64encode
     print(b64encode(open('klatka_ready.jpg', 'rb').read()), file=sys.stderr)
+    print('spelniono test(b64), wychodze')
+    sys.exit(0)
+
+elif is_test:
+    print(f'status: {status}\nklatka_ready.jpg powinna byc dla ciebie gotowa')
+    print('spelniono test, wychodze')
     sys.exit(0)
 
 # python-twitter
