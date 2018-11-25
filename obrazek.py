@@ -1,14 +1,7 @@
 """
 Ten plik bierze cytat i obrazek, a nastepnie dodaje go do obrazka.
 """
-try:
-    # special error for testing
-    #from zdobadz_cytat import BibliaCytat
-    from zdobadz_cytat import BibliaCytat
-    slownik_z_cytatem = BibliaCytat
-except:
-    from slowo_na_dzis import slowo_na_dzis
-    slownik_z_cytatem = slowo_na_dzis
+
 import random
 import PIL
 import PIL.Image as Image
@@ -34,6 +27,7 @@ def suma_wysokosc(lista: [], font: ImageFont.truetype) -> int or float:
         suma_wysokosc += font.getsize(item)[1]
     return suma_wysokosc
 
+
 def znajdz_najdluzszy_cytat(lista: [str], font: ImageFont.truetype) -> str:
     """Znajduje najdluzszy tekst w dostarczonej liscie."""
     najdluzszy = lista[0]
@@ -42,11 +36,14 @@ def znajdz_najdluzszy_cytat(lista: [str], font: ImageFont.truetype) -> str:
             najdluzszy = line
     return najdluzszy
 
-obecna_szerokosc_linii = 40 # startowa szerokosc
-imgFraction = 0.85
+
+obecna_szerokosc_linii = 40  # startowa szerokosc
+IMG_FRACTION = 0.85
 VIDEO_RATIO = 1920/1080  # =~ 1.8
-ratio_sensitivity = 0.4
-def wielkosc_czcionki(**kwargs) -> int:
+RATIO_SENSITIVITY = 0.4
+
+
+def wielkosc_czcionki(**kwargs) -> (int and []):
     """
     Oblicz potrzebna wielkosc czcionki.
 
@@ -54,21 +51,22 @@ def wielkosc_czcionki(**kwargs) -> int:
         **kwargs:
             cytat (str): tekst do ktorego dopasowac czcionke
             font (ImageFont.truetype): czcionka
-            
-            szerokosc_wideo: img.width
-            wysokosc_wideo: img.height
+            szerokosc: img.width
+            wysokosc: img.height
             obecna_szerokosc_linii: OPTIONAL (40)
 
     """
-    
-    font = kwargs["font"]
-    szerokosc_wideo = kwargs["szerokosc_wideo"]
-    wysokosc_wideo = kwargs["wysokosc_wideo"]
-    obecna_szerokosc_linii = kwargs.get("obecna_szerokosc_linii", 40) # default 40, optional
-    cytat_lista = cytat_lista = textwrap.wrap(kwargs["cytat"], width=obecna_szerokosc_linii, fix_sentence_endings=True)
 
-    ratio_szerokosc = imgFraction * szerokosc_wideo
-    ratio_wysokosc = imgFraction * wysokosc_wideo
+    font = kwargs["font"]
+    szerokosc = kwargs["szerokosc"]
+    wysokosc = kwargs["wysokosc"]
+    obecna_szerokosc_linii = kwargs.get(
+        "obecna_szerokosc_linii", 40)  # default 40, optional
+    cytat_lista = cytat_lista = textwrap.wrap(
+        kwargs["cytat"], width=obecna_szerokosc_linii, fix_sentence_endings=True)
+
+    ratio_szerokosc = IMG_FRACTION * szerokosc
+    ratio_wysokosc = IMG_FRACTION * wysokosc
 
     najdluzszyCytat = znajdz_najdluzszy_cytat(cytat_lista, font)
     szerokosc_najdluzszej = font.getsize(najdluzszyCytat)[0]
@@ -82,14 +80,14 @@ def wielkosc_czcionki(**kwargs) -> int:
         font_size += 1
         font = ImageFont.truetype("comic/comic.ttf", font_size)
 
-    if not VIDEO_RATIO - ratio_sensitivity < szerokosc_najdluzszej / wysokosc:
+    if not VIDEO_RATIO - RATIO_SENSITIVITY < szerokosc_najdluzszej / wysokosc:
         cytat = kwargs["cytat"]
         obecna_szerokosc_linii += 5
         cytat_lista = textwrap.wrap(
             cytat, width=obecna_szerokosc_linii, fix_sentence_endings=True)
         font_size = wielkosc_czcionki()
 
-    return font_size
+    return font_size, cytat_lista
 
 
 # testowy cytat
@@ -97,6 +95,7 @@ def wielkosc_czcionki(**kwargs) -> int:
     'cytat': '" ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki! ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!"',
     'autor': 'Jakub Koralewski'
 } """
+
 
 def zapisz_obrazek(**kwargs):
     """
@@ -107,14 +106,25 @@ def zapisz_obrazek(**kwargs):
             cytat (str): nadpisz cytat tekstu
 
     """
-    if 'cytat' in **kwargs:
+    try:
+        # special error for testing
+        #from zdobadz_cytat import BibliaCytat
+        from zdobadz_cytat import BibliaCytat
+        slownik_z_cytatem = BibliaCytat
+    except:
+        from slowo_na_dzis import slowo_na_dzis
+        slownik_z_cytatem = slowo_na_dzis
+
+    if 'cytat' in kwargs:
         cytat = kwargs["cytat"]
         autor = ''
-        print('cytat overriden\n',cytat, autor)
+        print('cytat overriden\n', cytat, autor)
     else:
         print(slownik_z_cytatem)
         cytat = slownik_z_cytatem['cytat']
         autor = slownik_z_cytatem['autor']
+
+    print(f'cytat: {cytat}')
 
     try:
         img = Image.open('klatka.jpg')
@@ -123,16 +133,14 @@ def zapisz_obrazek(**kwargs):
         # sprobuj ponownie
         import randomowa_klatka
         img = Image.open('klatka.jpg')
-    
+
     width, height = img.size
     draw = ImageDraw.Draw(img)
-    print(f'cytat: {cytat}')
-
-    # portion of image width you want text width to be
 
     font = ImageFont.truetype("comic/comic.ttf", 1)
 
-    font_size = wielkosc_czcionki(cytat=cytat, font=font, )
+    font_size, cytat_lista = wielkosc_czcionki(
+        cytat=cytat, font=font, szerokosc=img.width, wysokosc=img.height)
 
     randColor = tuple([random.randint(100, 255) for i in range(3)])
 
@@ -147,7 +155,7 @@ def zapisz_obrazek(**kwargs):
     # pisz cytat
     offset = srodkowa_wysokosc
     outlineSize = 3
-    for line in textwrap.wrap(cytat, width=40):
+    for line in cytat_lista:
 
         # w - szerokosc danej linii tekstu
         # h - wysokosc danej linii tekstu
@@ -163,6 +171,7 @@ def zapisz_obrazek(**kwargs):
         offset += font.getsize(line)[1]
 
     img.save('klatka_ready.jpg')
+
 
 if __name__ == "__main__":
     print('imported obrazek.py')
