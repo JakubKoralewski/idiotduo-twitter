@@ -13,7 +13,7 @@ parser.add_argument('--base64', action='store_true',
 parser.add_argument('--string', help='sprecyzuj wybrany tekst (int or str)')
 args = parser.parse_args()
 is_base64 = args.base64
-string_info = args.string_info
+string_info = args.string
 
 if not isinstance(string_info, str):
     string = ''.join(random.choices(string.digits + string.ascii_letters + ' ', k=string_info))
