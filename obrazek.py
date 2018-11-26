@@ -1,5 +1,5 @@
 """
-Ten plik bierze cytat i obrazek, a nastepnie dodaje go do obrazka.
+Ten plik bierze dodaje cytat do obrazka.
 """
 
 import random
@@ -8,6 +8,11 @@ import PIL.Image as Image
 import PIL.ImageDraw as ImageDraw
 import PIL.ImageFont as ImageFont
 import textwrap
+from typing import List
+
+WRAZLIWOSC_STOSUNKOW = 0.1
+COMIC_PATH = "comic/comic.ttf"
+ZLOTY_PODZIAL = 1.618
 
 
 def narysuj_obrys(text, x, y, outline_size, font, draw):
@@ -37,62 +42,107 @@ def znajdz_najdluzszy_cytat(lista: [str], font: ImageFont.truetype) -> str:
     return najdluzszy
 
 
-obecna_szerokosc_linii = 40  # startowa szerokosc
-IMG_FRACTION = 0.85
-VIDEO_RATIO = 1920/1080  # =~ 1.8
-RATIO_SENSITIVITY = 0.4
+def polacz_zbyt_krotkie(lista: List[str], *limit_liter) -> List[str]:
+    """
+    Celem tej funkcji jest zmiana tego typu list: 
+    ['xx','xxxxxxxxxxxx','xxxxxxxxxxxxxxx'] w ['xxxxxxxxxxxxxx','xxxxxxxxxxxxxxx']
 
+    Args:
+        lista ([str]): lista ktorej poddanie zostana funkcja,
+        [limit_liter]: maksymalna ilosc liter ktorej poddane zostanie polaczenie (OPCJONALNIE),
+    """
+    if limit_liter:
+        limit_liter = limit_liter[0]
+    else:
+        limit_liter = 5
+    ostatni_element = len(lista) - 1
+    for i in range(len(lista)):
+        if not isinstance(lista[i], str):
+            raise Exception(f"Lista podana funkcji polacz_zbyt_krotkie() nie zawiera stringow.\nZawiera: {lista[i]}")
+        if len(lista[i]) < limit_liter:
+            if i == ostatni_element:
+                lista[i-1] = lista[i-1] + lista[i]
+            else:
+                lista[i+1] = lista[i] + lista[i+1]
+            lista.pop(i)
+    
+    return lista
+    
 
-def wielkosc_czcionki(**kwargs) -> (int and []):
+def czcionka(**kwargs) -> (int and []):
     """
     Oblicz potrzebna wielkosc czcionki.
 
     Args:
         **kwargs:
             cytat (str): tekst do ktorego dopasowac czcionke
-            font (ImageFont.truetype): czcionka
             szerokosc: img.width
             wysokosc: img.height
             obecna_szerokosc_linii: OPTIONAL (40)
+            font_size: OPTIONAL (false) if true will return font size
 
     """
-
-    font = kwargs["font"]
-    szerokosc = kwargs["szerokosc"]
-    wysokosc = kwargs["wysokosc"]
+    print("DEBUGGING CZCIONKA")
     obecna_szerokosc_linii = kwargs.get(
         "obecna_szerokosc_linii", 40)  # default 40, optional
-    cytat_lista = cytat_lista = textwrap.wrap(
-        kwargs["cytat"], width=obecna_szerokosc_linii, fix_sentence_endings=True)
+    font_size = kwargs.get("font_size", 1)  # default 1, optional
+    szerokosc = kwargs["szerokosc"]
+    wysokosc = kwargs["wysokosc"]
+    cytat = kwargs["cytat"]
 
-    ratio_szerokosc = IMG_FRACTION * szerokosc
-    ratio_wysokosc = IMG_FRACTION * wysokosc
+    font = ImageFont.truetype(COMIC_PATH, font_size)
+    cytat_lista = textwrap.wrap(
+        cytat, width=obecna_szerokosc_linii, fix_sentence_endings=True)
 
-    najdluzszyCytat = znajdz_najdluzszy_cytat(cytat_lista, font)
-    szerokosc_najdluzszej = font.getsize(najdluzszyCytat)[0]
-    wysokosc = suma_wysokosc(cytat_lista, font)
-    font_size = 1
+    # dodaj marginesy procentowe
+    szerokosc = int(szerokosc/ZLOTY_PODZIAL)
+    wysokosc = int(wysokosc/ZLOTY_PODZIAL)
 
-    while szerokosc_najdluzszej < ratio_szerokosc and wysokosc < ratio_wysokosc:
-        szerokosc_najdluzszej = font.getsize(najdluzszyCytat)[0]
-        wysokosc = suma_wysokosc(cytat_lista, font)
-        # iterate until the text size is just larger than the criteria
-        font_size += 1
-        font = ImageFont.truetype("comic/comic.ttf", font_size)
+    duzy_stosunek = szerokosc/wysokosc
+    maly_stosunek = 0
 
-    if not VIDEO_RATIO - RATIO_SENSITIVITY < szerokosc_najdluzszej / wysokosc:
-        cytat = kwargs["cytat"]
-        obecna_szerokosc_linii += 5
-        cytat_lista = textwrap.wrap(
-            cytat, width=obecna_szerokosc_linii, fix_sentence_endings=True)
-        font_size = wielkosc_czcionki()
+    zbyt_szeroki = False # szerokosc_najdluzszej < szerokosc
+    zbyt_wysoki = False # wysokosc < wysokosc:
 
-    return font_size, cytat_lista
+    while True:
+        # na poczatek 
+        szerokosc_najdluzszej = font.getsize(znajdz_najdluzszy_cytat(cytat_lista, font))[0]
+        calkowita_wysokosc = suma_wysokosc(cytat_lista, font)
+        zbyt_szeroki = szerokosc_najdluzszej > szerokosc
+        zbyt_wysoki = calkowita_wysokosc > wysokosc
+        maly_stosunek = szerokosc_najdluzszej / calkowita_wysokosc
+
+        # jesli szerszy niz nadana szerokosc
+        if zbyt_szeroki:
+            # zmniejsz ilosc liter w jednej linii
+            obecna_szerokosc_linii -= 2
+            
+        elif zbyt_wysoki:
+            # zwieksz ilosc liter w jednej linii
+            obecna_szerokosc_linii += 2
+        
+        roznica_stosunkow = abs(duzy_stosunek - maly_stosunek)
+        # jesli roznica stosunku nadanej szerokosci do wysokosci
+        # i stosunku szerokosci do wysokosci tekstu
+        # jest w granicy 0.1 (WRAZLIWOSC_STOSUNKOW)
+        if roznica_stosunkow < WRAZLIWOSC_STOSUNKOW and font_size > 10:
+            # zakoncz szukanie
+            break
+
+        # odswiez zmienne
+        # podziel cytat na liste
+        cytat_lista = textwrap.wrap(cytat, width=obecna_szerokosc_linii, fix_sentence_endings=True)
+        if not(zbyt_szeroki and zbyt_wysoki):
+            font_size += 1
+        else:
+            font_size -= 1
+        font = ImageFont.truetype(COMIC_PATH, font_size)
+
+    return ImageFont.truetype(COMIC_PATH, font_size), cytat_lista
 
 
 def zapisz_obrazek(**kwargs):
     # Wygeneruj obrazek 'klatka.jpg'
-    import randomowa_klatka
     """
     Zapisuje obrazek do pliku.
 
@@ -101,29 +151,16 @@ def zapisz_obrazek(**kwargs):
             cytat (str): nadpisz cytat tekstu
 
     """
-    slownik_z_cytatem = None 
 
     # jeśli nadpisano cytat przy wykonaniu funkcji
     if 'cytat' in kwargs:
+        # TEST
         cytat = kwargs["cytat"]
-        autor = ''
         print('cytat nadpisany')
     else:
         print('cytat NIEnadpisany, zdobywam tradycyjnymi sposobami')
-        try:
-            from zdobadz_cytat import biblia_cytat
-            slownik_z_cytatem = biblia_cytat
-
-            del biblia_cytat
-        except:
-            from slowo_na_dzis import slowo_na_dzis
-            slownik_z_cytatem = slowo_na_dzis
-
-            del slowo_na_dzis
-        
-        print(slownik_z_cytatem)
-        cytat = slownik_z_cytatem['cytat']
-        autor = slownik_z_cytatem['autor']
+    
+    nazwa = kwargs["nazwa"]
 
     print(f'cytat: {cytat}')
 
@@ -138,12 +175,11 @@ def zapisz_obrazek(**kwargs):
     width, height = img.size
     draw = ImageDraw.Draw(img)
 
-    font = ImageFont.truetype("comic/comic.ttf", 1)
-
     # zbadaj optymalna wielkosc czcionki
-    font_size, cytat_lista = wielkosc_czcionki(
-        cytat=cytat, font=font, szerokosc=img.width, wysokosc=img.height)
+    font, cytat_lista = czcionka(
+        cytat=cytat, szerokosc=img.width, wysokosc=img.height)
 
+    cytat_lista = polacz_zbyt_krotkie(cytat_lista)
     # wybierzmy losowy kolor
     # niech to bedzie niezmienna lista 3 losowych liczb w tym przedziale
     # R, G, B
@@ -178,11 +214,11 @@ def zapisz_obrazek(**kwargs):
         # offset kontroluje wysokosc tekstu
         # za kazda linia tekstu zwieksza sie o wysokosc danej linii
         offset += font.getsize(line)[1]
-
-    img.save('klatka_ready.jpg')
-
-    return slownik_z_cytatem
+    if nazwa:
+        img.save(nazwa)
+    else:
+        img.save('klatka_ready.jpg')
 
 
 if __name__ == "__main__":
-    print('imported obrazek.py')
+    print('To nie powinno sie wydarzyc!')

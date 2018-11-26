@@ -4,11 +4,12 @@ import json
 import os
 from time import sleep
 
-on_heroku = False
+
 if 'api_key' in os.environ:
     on_heroku = True
     api_key = os.environ['api_key']
 else:
+    on_heroku = False
     import config
     api_key = config.api_key
 
