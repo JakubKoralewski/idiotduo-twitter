@@ -8,59 +8,62 @@ import string
 
 parser = argparse.ArgumentParser(description='Wytweetuj obrazek.')
 #parser.add_argument('--base64', type=bool, nargs='?', default=False, const=True, help='wypluj obrazek w base64')
-parser.add_argument('--base64','-b64', action='store_true',
+parser.add_argument('--base64', '-b64', action='store_true',
                     help='wypluj obrazek w base64 (dla testow na heroku)')
-parser.add_argument('--string', '-s', help='sprecyzuj wybrany tekst (int or str)')
-parser.add_argument('--test', '-t', action='store_true', help='dla testow lokalnych')
+parser.add_argument(
+    '--string', '-s', help='sprecyzuj wybrany tekst (int or str)')
+parser.add_argument('--test', '-t', action='store_true',
+                    help='dla testow lokalnych')
 args = parser.parse_args()
 is_base64 = args.base64
-string_info = args.string
+string_val = args.string
 is_test = args.test
 
 if is_test and is_base64:
-    raise Exception(f"Nie mozesz jednoczesnie testowac lokalnie i na heroku!\nis_test = {is_test}, is_base64 = {is_base64}")
+    raise Exception(
+        f"Nie mozesz jednoczesnie testowac lokalnie i na heroku!\nis_test = {is_test} && is_base64 = {is_base64}")
 
-if not isinstance(string_info, str):
-    string = ''.join(random.choices(string.digits + string.ascii_letters + ' ', k=string_info))
+
+if string_val.isdigit():
+    print('parametr "string" to nie string wiec generuje tekst')
+    string = ''.join(random.choices(
+        string.digits + string.ascii_letters + ' ', k=int(string_val)))
 else:
-    string = string_info
+    string = string_val
 
+del string_val
+del parser
 print(f'string: {string}')
 
-
-# Kolejnosc wykonywania dzialan:
-
-# 1. Zdobadz klatke z Youtube.
-import randomowa_klatka
-# 2. Zdobadz cytat.
-#import zdobadz_cytat
-# 3. Polacz cytat i klatke w jednym obrazie.
-import obrazek
-obrazek.zapisz_obrazek(cytat=string)
+# 1. Polacz cytat i klatke w jednym obrazie.
+from obrazek import zapisz_obrazek, slownik_z_cytatem
+zapisz_obrazek(cytat=string)
 
 
 # 4. Zdobadz cytat z obrazka.py
-z = obrazek.slownik_z_cytatem['z']
-autor = obrazek.slownik_z_cytatem['autor']
+z = slownik_z_cytatem['z']
+autor = slownik_z_cytatem['autor']
 
 if z == 'zdobadz_cytat':
-    ksiega = obrazek.slownik_z_cytatem['ksiega']
+    ksiega = slownik_z_cytatem['ksiega']
     status = f'Cytat na dziś!\n{ksiega}: {autor}.'
 elif z == 'slowo_na_dzis':
-    slowo_na_dzis = obrazek.slownik_z_cytatem['tytul']
+    slowo_na_dzis = slownik_z_cytatem['tytul']
     status = f'Słowo na dziś!\nDzisiejsze słowo to: "{slowo_na_dzis}"! Autor: {autor}.'
 
 if is_base64:
-    import sys
+    #import sys
     from base64 import b64encode
     print(b64encode(open('klatka_ready.jpg', 'rb').read()), file=sys.stderr)
     print('spelniono test(b64), wychodze')
-    sys.exit(0)
+    # sys.exit(0)
+    quit()
 
 elif is_test:
+    #import sys
     print(f'status: {status}\nklatka_ready.jpg powinna byc dla ciebie gotowa')
     print('spelniono test, wychodze')
-    sys.exit(0)
+    quit()
 
 # python-twitter
 import twitter

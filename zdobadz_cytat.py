@@ -11,7 +11,7 @@ with driver:
     autor = driver.find_element_by_class_name('OS')
     ksiega = driver.find_element_by_class_name('MS')
 
-    BibliaCytat = {
+    biblia_cytat = {
         'cytat': cytat.text,
         'autor': autor.text,
         'ksiega': ksiega.text,
