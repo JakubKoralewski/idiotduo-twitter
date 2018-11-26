@@ -90,15 +90,6 @@ def wielkosc_czcionki(**kwargs) -> (int and []):
     return font_size, cytat_lista
 
 
-# testowy cytat
-""" biblia_cytat = {
-    'cytat': '" ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki! ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!"',
-    'autor': 'Jakub Koralewski'
-} """
-
-slownik_z_cytatem = None
-
-
 def zapisz_obrazek(**kwargs):
     # Wygeneruj obrazek 'klatka.jpg'
     import randomowa_klatka
@@ -110,8 +101,7 @@ def zapisz_obrazek(**kwargs):
             cytat (str): nadpisz cytat tekstu
 
     """
-    global slownik_z_cytatem  # zeby mozna bylo uzyc z poziomu tweet.py | inaczej 'TypeError: 'NoneType' object is not subscriptable'
-
+    slownik_z_cytatem = None 
 
     # jeśli nadpisano cytat przy wykonaniu funkcji
     if 'cytat' in kwargs:
@@ -190,6 +180,8 @@ def zapisz_obrazek(**kwargs):
         offset += font.getsize(line)[1]
 
     img.save('klatka_ready.jpg')
+
+    return slownik_z_cytatem
 
 
 if __name__ == "__main__":

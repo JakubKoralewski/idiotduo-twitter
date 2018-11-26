@@ -36,8 +36,12 @@ del parser
 print(f'string: {string}')
 
 # 1. Polacz cytat i klatke w jednym obrazie.
-from obrazek import zapisz_obrazek, slownik_z_cytatem
-zapisz_obrazek(cytat=string)
+from obrazek import zapisz_obrazek
+""" Jednoczesnie:
+ - napisz tekst na 'klatka.jpg' i zwroc 'klatka_ready.jpg'
+ - zwroc slownik_z_cytatem ktory mozesz uzyskać na pare sposobow zaleznosci od testowania, i errorów
+"""
+slownik_z_cytatem = zapisz_obrazek(cytat=string)
 
 
 # 4. Zdobadz cytat z obrazka.py
