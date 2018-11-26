@@ -10,15 +10,15 @@ import PIL.ImageFont as ImageFont
 import textwrap
 
 
-def narysuj_obrys(text, x, y, outlineSize, font, draw):
-    draw.text((x-outlineSize, y-outlineSize), text, font=font, fill="black")
-    draw.text((x+outlineSize, y-outlineSize), text, font=font, fill="black")
-    draw.text((x+outlineSize, y+outlineSize), text, font=font, fill="black")
-    draw.text((x-outlineSize, y+outlineSize), text, font=font, fill="black")
-    draw.text((x-outlineSize, y), text, font=font, fill="black")
-    draw.text((x+outlineSize, y), text, font=font, fill="black")
-    draw.text((x, y+outlineSize), text, font=font, fill="black")
-    draw.text((x, y-outlineSize), text, font=font, fill="black")
+def narysuj_obrys(text, x, y, outline_size, font, draw):
+    draw.text((x-outline_size, y-outline_size), text, font=font, fill="black")
+    draw.text((x+outline_size, y-outline_size), text, font=font, fill="black")
+    draw.text((x+outline_size, y+outline_size), text, font=font, fill="black")
+    draw.text((x-outline_size, y+outline_size), text, font=font, fill="black")
+    draw.text((x-outline_size, y), text, font=font, fill="black")
+    draw.text((x+outline_size, y), text, font=font, fill="black")
+    draw.text((x, y+outline_size), text, font=font, fill="black")
+    draw.text((x, y-outline_size), text, font=font, fill="black")
 
 
 def suma_wysokosc(lista: [], font: ImageFont.truetype) -> int or float:
@@ -91,7 +91,7 @@ def wielkosc_czcionki(**kwargs) -> (int and []):
 
 
 # testowy cytat
-""" BibliaCytat = {
+""" biblia_cytat = {
     'cytat': '" ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki! ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!ALLE LUJA JEST TO BARDZO DŁUGI TEKST W KTÓRYM SPRÓBUJĘ PRZKEROCZYĆ limit tekstu jaki jest mi dany, żeby zobaczyc czy obliczenie wysokosci tekstu jest poprawnie wykorzystywane aby obliczyc wielkosc czcionki!"',
     'autor': 'Jakub Koralewski'
 } """
@@ -100,6 +100,8 @@ slownik_z_cytatem = None
 
 
 def zapisz_obrazek(**kwargs):
+    # Wygeneruj obrazek 'klatka.jpg'
+    import randomowa_klatka
     """
     Zapisuje obrazek do pliku.
 
@@ -108,20 +110,27 @@ def zapisz_obrazek(**kwargs):
             cytat (str): nadpisz cytat tekstu
 
     """
-    try:
-        # special error for testing
-        #from zdobadz_cytat import BibliaCytat
-        from zdobadz_cytat import BibliaCytat
-        slownik_z_cytatem = BibliaCytat
-    except:
-        from slowo_na_dzis import slowo_na_dzis
-        slownik_z_cytatem = slowo_na_dzis
+    global slownik_z_cytatem  # zeby mozna bylo uzyc z poziomu tweet.py | inaczej 'TypeError: 'NoneType' object is not subscriptable'
 
+
+    # jeśli nadpisano cytat przy wykonaniu funkcji
     if 'cytat' in kwargs:
         cytat = kwargs["cytat"]
         autor = ''
-        print('cytat overriden\n', cytat, autor)
+        print('cytat nadpisany')
     else:
+        print('cytat NIEnadpisany, zdobywam tradycyjnymi sposobami')
+        try:
+            from zdobadz_cytat import biblia_cytat
+            slownik_z_cytatem = biblia_cytat
+
+            del biblia_cytat
+        except:
+            from slowo_na_dzis import slowo_na_dzis
+            slownik_z_cytatem = slowo_na_dzis
+
+            del slowo_na_dzis
+        
         print(slownik_z_cytatem)
         cytat = slownik_z_cytatem['cytat']
         autor = slownik_z_cytatem['autor']
@@ -141,35 +150,43 @@ def zapisz_obrazek(**kwargs):
 
     font = ImageFont.truetype("comic/comic.ttf", 1)
 
+    # zbadaj optymalna wielkosc czcionki
     font_size, cytat_lista = wielkosc_czcionki(
         cytat=cytat, font=font, szerokosc=img.width, wysokosc=img.height)
 
-    randColor = tuple([random.randint(100, 255) for i in range(3)])
+    # wybierzmy losowy kolor
+    # niech to bedzie niezmienna lista 3 losowych liczb w tym przedziale
+    # R, G, B
+    rand_color = tuple([random.randint(100, 255) for i in range(3)])
 
-    # zaczynamy pisanie
-
-    # wysrodkuj na osi y
     cala_wysokosc = suma_wysokosc(cytat_lista, font)
-    srodkowa_wysokosc = height/2 - cala_wysokosc/2
 
-    print(f'img height: {img.height}, img.width: {img.width}, font: {font.size}, cala_wysokosc: {cala_wysokosc}, srodkowa_wysokosc: {srodkowa_wysokosc}')
+    poczatkowa_wysokosc = height/2 - cala_wysokosc/2
 
+    print(f'img height: {img.height}, img.width: {img.width}, font: {font.size}, cala_wysokosc: {cala_wysokosc}, poczatkowa_wysokosc: {poczatkowa_wysokosc}')
+
+    offset = poczatkowa_wysokosc
+    outline_size = 3
     # pisz cytat
-    offset = srodkowa_wysokosc
-    outlineSize = 3
     for line in cytat_lista:
-
         # w - szerokosc danej linii tekstu
         # h - wysokosc danej linii tekstu
         w, h = draw.textsize(line, font)
 
+        # x, y - pozycja danej linii tekstu, gdzie:
+
+        # x - srodek - polowa linii tekstu
         x = width/2 - w/2
+        # y - obecny offset
         y = offset
 
-        # rysujemy obrys
-        narysuj_obrys(line, x, y, outlineSize, font, draw)
+        # najpierw obrys
+        narysuj_obrys(line, x, y, outline_size, font, draw)
+        # potem tekst
+        draw.text((x, y), line, font=font, fill=rand_color)
 
-        draw.text((x, y), line, font=font, fill=randColor)
+        # offset kontroluje wysokosc tekstu
+        # za kazda linia tekstu zwieksza sie o wysokosc danej linii
         offset += font.getsize(line)[1]
 
     img.save('klatka_ready.jpg')
