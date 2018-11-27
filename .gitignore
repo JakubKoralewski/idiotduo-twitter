@@ -5,6 +5,5 @@ __pycache__/
 /!comic
 *.jpg
 *.json
-*.exe
 
-config.py
+config_secret.py
