@@ -1,9 +1,12 @@
 .vscode/
 env/
 __pycache__/
+testtest*.py
 
 /!comic
 *.jpg
 *.json
 
 config_secret.py
+cProfile_log.txt
+cProfile_log
