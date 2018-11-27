@@ -6,15 +6,9 @@ import argparse
 def main(**kwargs):
     
 
-    parser = argparse.ArgumentParser(description='Wytweetuj obrazek.')
-    parser.add_argument(
-        '--string', '-s', help='sprecyzuj wybrany tekst (int or str)')
-    parser.add_argument('--test', '-t', action='store_true',
-                        help='dla testow lokalnych')
-    args = parser.parse_args()
-    string_val = args.string
-    is_test = args.test
 
+
+    # for unit testing
     if 'test' in kwargs:
         is_test = True
     if 'nazwa' in kwargs:
@@ -54,7 +48,7 @@ def main(**kwargs):
             slownik_z_cytatem = biblia_cytat
         except:
             from slowo_na_dzis import slowo_na_dzis
-            slownik_z_cytatem = slowo_na_dzis   
+            slownik_z_cytatem = slowo_na_dzis  
         zapisz_obrazek(cytat=slownik_z_cytatem["cytat"], nazwa=nazwa)
 
 
@@ -69,7 +63,6 @@ def main(**kwargs):
         status = f'Słowo na dziś!\nDzisiejsze słowo to: "{slowo_na_dzis}"! Autor: {autor}.'
 
     if is_test:
-        #import sys
         print(f'status: {status}\nklatka_ready.jpg powinna byc dla ciebie gotowa')
         print('spelniono test, wychodze')
         return
@@ -102,4 +95,12 @@ def main(**kwargs):
     api.PostUpdate(status, 'klatka_ready.jpg')
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Wytweetuj obrazek.')
+    parser.add_argument(
+        '--string', '-s', help='sprecyzuj wybrany tekst (int or str)')
+    parser.add_argument('--test', '-t', action='store_true',
+                        help='dla testow lokalnych')
+    args = parser.parse_args()
+    string_val = args.string
+    is_test = args.test
     main()
