@@ -85,11 +85,7 @@ def main(**kwargs):
         access_token = os.environ['access_token']
         access_token_secret = os.environ['access_token_secret']
     else:
-        import config
-        consumer_key = config.consumer_key
-        consumer_secret = config.consumer_secret
-        access_token = config.access_token
-        access_token_secret = config.access_token_secret
+        from config_secret import consumer_key, consumer_secret, access_token, access_token_secret
 
     api = twitter.Api(consumer_key=consumer_key,
                     consumer_secret=consumer_secret,

@@ -3,8 +3,9 @@ Ten plik korzysta ze strony twojabiblia.pl, selenium i Chrome, aby zdobyc cytat 
 """
 
 from selenium import webdriver
+from config import WEB_DRIVER_PATH
 
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(executable_path=WEB_DRIVER_PATH)
 with driver:
     driver.get('http://twojabiblia.pl/?page=quote')
     cytat = driver.find_element_by_class_name('NS')

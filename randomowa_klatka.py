@@ -30,7 +30,10 @@ def zapisz_klatke():
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
     inputs = '-y -user_agent {user_agent}'
 
+    from config import FFMPEG_PATH
+
     ff = FFmpeg(
+        executable=FFMPEG_PATH,
         inputs={urlPliku: inputs},
         outputs={'klatka.jpg': f'-ss {losowyCzas:.2f} -vframes 1 -q:v 2'}
     )
