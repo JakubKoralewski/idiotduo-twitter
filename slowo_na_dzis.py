@@ -15,12 +15,23 @@ def unormalizuj_wielkosc(text: str) -> str:
     text = text[0].upper() + text[1:]
     return text
 
+def polacz_cytat_z_opisem(tytul, opis) -> str:
+    """
+    Napraw poniższy problem:
+    "Prawem kaduka Czyli:(...)"
+    """
+    if opis[0].isupper():
+        opis[0] = opis[0].lower()
+        return f'{tytul}, {opis}'
+
+
 
 # Jesli nie ma tytulowego slowo na poczatku opisu.
 if tytul not in opis[:len(tytul)+2]:
     # Dodaj je.
     tytul = unormalizuj_wielkosc(tytul)
-    cytat = f'{tytul} {opis}'
+    #cytat = f'{tytul} {opis}'
+    cytat = polacz_cytat_z_opisem(tytul, opis)
 else:
     cytat = slowo_na_dzis
 
