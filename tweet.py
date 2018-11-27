@@ -1,12 +1,9 @@
 """
 Ten plik bierze wszystkie dane wygenerowane przez poprzednie skrypty i umieszcza je na Twitterze.
 """
-import argparse
+
 
 def main(**kwargs):
-    
-
-
 
     # for unit testing
     if 'test' in kwargs:
@@ -95,6 +92,7 @@ def main(**kwargs):
     api.PostUpdate(status, 'klatka_ready.jpg')
 
 if __name__ == '__main__':
+    import argparse
     parser = argparse.ArgumentParser(description='Wytweetuj obrazek.')
     parser.add_argument(
         '--string', '-s', help='sprecyzuj wybrany tekst (int or str)')
