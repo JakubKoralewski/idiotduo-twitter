@@ -10,8 +10,8 @@ import PIL.ImageFont as ImageFont
 import textwrap
 from typing import List
 
+from config import COMIC_SANS_PATH
 WRAZLIWOSC_STOSUNKOW = 0.1
-COMIC_PATH = "comic/comic.ttf"
 ZLOTY_PODZIAL = 1.618
 
 
@@ -31,15 +31,6 @@ def suma_wysokosc(lista: [], font: ImageFont.truetype) -> int or float:
     for item in lista:
         suma_wysokosc += font.getsize(item)[1]
     return suma_wysokosc
-
-
-def znajdz_najdluzszy_cytat(lista: [str], font: ImageFont.truetype) -> str:
-    """Znajduje najdluzszy tekst w dostarczonej liscie."""
-    najdluzszy = lista[0]
-    for line in lista:
-        if font.getsize(line)[0] > font.getsize(najdluzszy)[0]:
-            najdluzszy = line
-    return najdluzszy
 
 
 def polacz_zbyt_krotkie(lista: List[str], *limit_liter) -> List[str]:
@@ -90,7 +81,7 @@ def czcionka(**kwargs) -> (int and []):
     wysokosc = kwargs["wysokosc"]
     cytat = kwargs["cytat"]
 
-    font = ImageFont.truetype(COMIC_PATH, font_size)
+    font = ImageFont.truetype(COMIC_SANS_PATH, font_size)
     cytat_lista = textwrap.wrap(
         cytat, width=obecna_szerokosc_linii, fix_sentence_endings=True)
 
@@ -105,8 +96,9 @@ def czcionka(**kwargs) -> (int and []):
     zbyt_wysoki = False # wysokosc < wysokosc:
 
     while True:
+
         # na poczatek 
-        szerokosc_najdluzszej = font.getsize(znajdz_najdluzszy_cytat(cytat_lista, font))[0]
+        szerokosc_najdluzszej = font.getsize(max(cytat_lista, key=len))[0]
         calkowita_wysokosc = suma_wysokosc(cytat_lista, font)
         zbyt_szeroki = szerokosc_najdluzszej > szerokosc
         zbyt_wysoki = calkowita_wysokosc > wysokosc
@@ -136,9 +128,9 @@ def czcionka(**kwargs) -> (int and []):
             font_size += 1
         else:
             font_size -= 1
-        font = ImageFont.truetype(COMIC_PATH, font_size)
+        font = ImageFont.truetype(COMIC_SANS_PATH, font_size)
 
-    return ImageFont.truetype(COMIC_PATH, font_size), cytat_lista
+    return ImageFont.truetype(COMIC_SANS_PATH, font_size), cytat_lista
 
 
 def zapisz_obrazek(**kwargs):
