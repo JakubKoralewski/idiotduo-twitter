@@ -4,11 +4,11 @@ import json
 import os
 from time import sleep
 
-from on_heroku import on_heroku
+from bot.on_heroku import on_heroku
 if on_heroku:
     api_key = os.environ['api_key']
 else:
-    from config_secret import api_key
+    from bot.config_secret import api_key
 
 url = 'https://www.googleapis.com/youtube/v3/playlistItems?playlistId=UUIc8KwlF3e3-GW4Y1p0X6tQ&key=' + \
     api_key + '&part=snippet&maxResults=50'

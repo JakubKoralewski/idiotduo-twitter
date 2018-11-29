@@ -1,7 +1,8 @@
 import json
 import random
+import os
 
-with open('slowo_na_dzis.txt', 'r') as plik:
+with open('static\slowo_na_dzis.txt', 'r') as plik:
     slowo_na_dzis = json.load(plik)
 
 slowo_na_dzis = random.choice(slowo_na_dzis)
@@ -17,12 +18,15 @@ def unormalizuj_wielkosc(text: str) -> str:
 
 def polacz_cytat_z_opisem(tytul, opis) -> str:
     """
-    Napraw poniższy problem:
+    Napraw poniższe problemy:
     "Prawem kaduka Czyli:(...)"
+    https://twitter.com/idiot2duo/status/1067720245467594752
+
+    
     """
     if opis[0].isupper():
-        opis[0] = opis[0].lower()
-        return f'{tytul}, {opis}'
+        nowy_opis = opis[0].lower() + opis[1:]
+        return f'{tytul}, {nowy_opis}'
 
 
 

@@ -1,11 +1,22 @@
 """
 Ten plik korzysta ze strony twojabiblia.pl, selenium i Chrome, aby zdobyc cytat z Biblii.
+
+Problemem w tym pliku jest to, że selenium czeka, aż strona przestanie się ładować, mimo że 
+cytat już się załadował.
 """
 
 from selenium import webdriver
-from config import WEB_DRIVER_PATH
+from bot.on_heroku import on_heroku
 
-driver = webdriver.Chrome(executable_path=WEB_DRIVER_PATH)
+if on_heroku:
+    driver = webdriver.Chrome()
+else:
+    from bot.config import WEB_DRIVER_PATH
+    import os
+    print(f'cwd: {os.getcwd()}')
+    print(f'webpath: {WEB_DRIVER_PATH}')
+    driver = webdriver.Chrome(executable_path=WEB_DRIVER_PATH)
+
 with driver:
     driver.get('http://twojabiblia.pl/?page=quote')
     cytat = driver.find_element_by_class_name('NS')

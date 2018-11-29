@@ -1,7 +1,10 @@
 .vscode/
 env/
 __pycache__/
+.pytest_cache/
 testtest*.py
+.eggs
+*.egg-info
 
 /!comic
 *.jpg

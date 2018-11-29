@@ -1,22 +1,18 @@
+"""Ten plik bierze wszystkie dane wygenerowane przez poprzednie skrypty i umieszcza je na Twitterze.
 """
-Ten plik bierze wszystkie dane wygenerowane przez poprzednie skrypty i umieszcza je na Twitterze.
-"""
-
+string_val = False
+is_test = False
 
 def main(**kwargs):
 
     # for unit testing
-    if 'test' in kwargs:
-        is_test = True
-    if 'nazwa' in kwargs:
-        nazwa = kwargs["nazwa"]
-    else:
-        nazwa = False
+    is_test = kwargs.get('test', False)
+    nazwa = kwargs.get('nazwa', False)
 
-    from randomowa_klatka import zapisz_klatke
+    from bot.randomowa_klatka import zapisz_klatke
     zapisz_klatke()
 
-    from obrazek import zapisz_obrazek
+    from bot.obrazek import zapisz_obrazek
     slownik_z_cytatem = {}
     # jesli dostarczono argument --string
     if string_val:
@@ -40,13 +36,13 @@ def main(**kwargs):
         slownik_z_cytatem['ksiega'] = '420 6,9 XD'
     else:
         # inaczej 4real is happenink!
-        try:
-            from zdobadz_cytat import biblia_cytat
-            slownik_z_cytatem = biblia_cytat
-        except:
-            from slowo_na_dzis import slowo_na_dzis
-            slownik_z_cytatem = slowo_na_dzis  
-        zapisz_obrazek(cytat=slownik_z_cytatem["cytat"], nazwa=nazwa)
+        #try:
+        from bot.zdobadz_cytat import biblia_cytat
+        slownik_z_cytatem = biblia_cytat
+        """ except:
+            from bot.slowo_na_dzis import slowo_na_dzis
+            slownik_z_cytatem = slowo_na_dzis   """
+        zapisz_obrazek(cytat=slownik_z_cytatem["cytat"].strip(), nazwa=nazwa)
 
 
     z = slownik_z_cytatem['z']
@@ -66,7 +62,7 @@ def main(**kwargs):
 
     # python-twitter
     import twitter
-    from ids import on_heroku
+    from bot.ids import on_heroku
 
     if on_heroku:
         import os
@@ -75,7 +71,7 @@ def main(**kwargs):
         access_token = os.environ['access_token']
         access_token_secret = os.environ['access_token_secret']
     else:
-        from config_secret import consumer_key, consumer_secret, access_token, access_token_secret
+        from bot.config_secret import consumer_key, consumer_secret, access_token, access_token_secret
 
     api = twitter.Api(consumer_key=consumer_key,
                     consumer_secret=consumer_secret,

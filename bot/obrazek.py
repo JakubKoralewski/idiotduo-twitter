@@ -1,5 +1,14 @@
 """
 Ten plik bierze dodaje cytat do obrazka.
+
+Istnieje problem ze sposobem w jaki dodawany jest obrys. 
+Jest on po prostu rysowany wielokrotnie, raz troche na lewo, raz troche na prawo, raz troche w prawy gorny rog itp.
+Jest to bardzo nieefektywne i produkuje wykropkowany obrys!
+Sposoby rozwiązania problemu:
+- pisz literka po literce zwiększając każda literke z osobna
+- zmniejsz rozmiar obrysu i udawaj, że nic się nie dzieje ✓
+- pisz w pogrubionej czcionce 𝐗
+    - to nie ma sensuuu, bo https://i.imgur.com/f17WVLw.png 
 """
 
 import random
@@ -10,7 +19,9 @@ import PIL.ImageFont as ImageFont
 import textwrap
 from typing import List
 
-from config import COMIC_SANS_PATH
+from bot.config import COMIC_SANS_PATH
+COMIC_SANS = COMIC_SANS_PATH + 'comic.ttf'
+COMIC_SANS_BOLD = COMIC_SANS_PATH + 'comicbd.ttf'
 WRAZLIWOSC_STOSUNKOW = 0.1
 ZLOTY_PODZIAL = 1.618
 
@@ -81,7 +92,7 @@ def czcionka(**kwargs) -> (int and []):
     wysokosc = kwargs["wysokosc"]
     cytat = kwargs["cytat"]
 
-    font = ImageFont.truetype(COMIC_SANS_PATH, font_size)
+    font = ImageFont.truetype(COMIC_SANS, font_size)
     cytat_lista = textwrap.wrap(
         cytat, width=obecna_szerokosc_linii, fix_sentence_endings=True)
 
@@ -96,7 +107,7 @@ def czcionka(**kwargs) -> (int and []):
     zbyt_wysoki = False # wysokosc < wysokosc:
 
     while True:
-
+        print('|',end='')
         # na poczatek 
         szerokosc_najdluzszej = font.getsize(max(cytat_lista, key=len))[0]
         calkowita_wysokosc = suma_wysokosc(cytat_lista, font)
@@ -117,20 +128,48 @@ def czcionka(**kwargs) -> (int and []):
         # jesli roznica stosunku nadanej szerokosci do wysokosci
         # i stosunku szerokosci do wysokosci tekstu
         # jest w granicy 0.1 (WRAZLIWOSC_STOSUNKOW)
-        if roznica_stosunkow < WRAZLIWOSC_STOSUNKOW and font_size > 10:
+        # !!! POTRZEBA WIECEJ WARUNKOW ABY LOSOWO-DOBRY STOSUNEK O ZBYT MALEJ CZCIONCE NIE ZOSTAL ZAAKCEPTOWANY ✓
+        if roznica_stosunkow < WRAZLIWOSC_STOSUNKOW and (zbyt_szeroki or zbyt_wysoki):
             # zakoncz szukanie
             break
 
         # odswiez zmienne
         # podziel cytat na liste
         cytat_lista = textwrap.wrap(cytat, width=obecna_szerokosc_linii, fix_sentence_endings=True)
-        if not(zbyt_szeroki and zbyt_wysoki):
+        if not (zbyt_szeroki and zbyt_wysoki):
             font_size += 1
         else:
             font_size -= 1
-        font = ImageFont.truetype(COMIC_SANS_PATH, font_size)
+        font = ImageFont.truetype(COMIC_SANS, font_size)
 
-    return ImageFont.truetype(COMIC_SANS_PATH, font_size), cytat_lista
+    return ImageFont.truetype(COMIC_SANS, font_size), cytat_lista
+
+def otworz_img() -> Image.open:
+    """Z założenia funkcja wywoływana tylko raz, więc wrzucam tutaj importy dla koncepcjonalnego zrozumienia."""
+    
+    import os
+    img = None
+
+
+    for file in os.listdir('output'):
+        print(f'file: {file}')
+
+        # Jesli to nie jpg to idz do nastepnego
+        if not file.endswith('.jpg'):
+            continue
+        
+        """  try:
+            img = Image.open(nazwa)  
+        except:
+            continue """
+        img = Image.open('output\\'+file)  
+        if img:
+            return img
+    
+    # jesli nic nie znaleziono, wywal blad
+    if img is None:
+        raise Exception("Nie ma obrazka.")
+
 
 
 def zapisz_obrazek(**kwargs):
@@ -152,17 +191,11 @@ def zapisz_obrazek(**kwargs):
     else:
         print('cytat NIEnadpisany, zdobywam tradycyjnymi sposobami')
     
+    # zawsze jest podawana (domyslnie False), dlatego nie używam __dict__.get()
     nazwa = kwargs["nazwa"]
-
-    print(f'cytat: {cytat}')
-
-    try:
-        img = Image.open('klatka.jpg')
-    except FileNotFoundError:
-        # randomowa_klatka.py fail
-        # sprobuj ponownie
-        import randomowa_klatka
-        img = Image.open('klatka.jpg')
+    print(f'cytat: {cytat}', end='')
+    
+    img = otworz_img()
 
     width, height = img.size
     draw = ImageDraw.Draw(img)
@@ -184,7 +217,7 @@ def zapisz_obrazek(**kwargs):
     print(f'img height: {img.height}, img.width: {img.width}, font: {font.size}, cala_wysokosc: {cala_wysokosc}, poczatkowa_wysokosc: {poczatkowa_wysokosc}')
 
     offset = poczatkowa_wysokosc
-    outline_size = 3
+    outline_size = int(font.size/20)
     # pisz cytat
     for line in cytat_lista:
         # w - szerokosc danej linii tekstu
