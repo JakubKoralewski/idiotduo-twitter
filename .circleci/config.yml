@@ -51,8 +51,8 @@ jobs:
       - run:
           name: run tests
           command: |
-            #. venv/bin/activate
-            setup.py test
+            . venv/bin/activate
+            python setup.py test
 
       - store_artifacts:
           path: tests/output
