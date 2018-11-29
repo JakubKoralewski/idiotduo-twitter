@@ -22,7 +22,6 @@ def polacz_cytat_z_opisem(tytul, opis) -> str:
     "Prawem kaduka Czyli:(...)"
     https://twitter.com/idiot2duo/status/1067720245467594752
 
-    
     """
     if opis[0].isupper():
         nowy_opis = opis[0].lower() + opis[1:]
@@ -31,13 +30,14 @@ def polacz_cytat_z_opisem(tytul, opis) -> str:
 
 
 # Jesli nie ma tytulowego slowo na poczatku opisu.
-if tytul not in opis[:len(tytul)+2]:
+if tytul.lower() not in opis[:len(tytul)+2].lower():
     # Dodaj je.
     tytul = unormalizuj_wielkosc(tytul)
-    #cytat = f'{tytul} {opis}'
     cytat = polacz_cytat_z_opisem(tytul, opis)
 else:
-    cytat = slowo_na_dzis
+    tytul = unormalizuj_wielkosc(tytul)
+    cytat = slowo_na_dzis["opis"]
+
 
 
 print(slowo_na_dzis)

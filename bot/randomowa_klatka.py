@@ -35,7 +35,7 @@ def zapisz_klatke():
     ff = FFmpeg(
         executable=FFMPEG_PATH,
         inputs={urlPliku: inputs},
-        outputs={'output\\klatka%03d.jpg': f'-ss {losowyCzas:.2f} -frames:v 5 -q:v 2'}
+        outputs={'output\\klatka.jpg': f'-ss {losowyCzas:.2f} -frames:v 1 -q:v 2'}
     )
 
     print(ff.cmd)

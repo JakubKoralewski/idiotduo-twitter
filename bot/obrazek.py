@@ -9,6 +9,9 @@ Sposoby rozwiązania problemu:
 - zmniejsz rozmiar obrysu i udawaj, że nic się nie dzieje ✓
 - pisz w pogrubionej czcionce 𝐗
     - to nie ma sensuuu, bo https://i.imgur.com/f17WVLw.png 
+
+Tekst czasem jest zbyt jasny dla swojego otoczenia.
+Aby to rozwiazac nalezaloby obliczyc sredni kolor w obrazku i wybrac kolor "przeciwny".
 """
 
 import random
@@ -21,10 +24,7 @@ from typing import List
 
 from bot.config import COMIC_SANS_PATH
 COMIC_SANS = COMIC_SANS_PATH + 'comic.ttf'
-COMIC_SANS_BOLD = COMIC_SANS_PATH + 'comicbd.ttf'
-WRAZLIWOSC_STOSUNKOW = 0.1
-ZLOTY_PODZIAL = 1.618
-
+WRAZLIWOSC_STOSUNKOW = 0.19
 
 def narysuj_obrys(text, x, y, outline_size, font, draw):
     draw.text((x-outline_size, y-outline_size), text, font=font, fill="black")
@@ -35,13 +35,6 @@ def narysuj_obrys(text, x, y, outline_size, font, draw):
     draw.text((x+outline_size, y), text, font=font, fill="black")
     draw.text((x, y+outline_size), text, font=font, fill="black")
     draw.text((x, y-outline_size), text, font=font, fill="black")
-
-
-def suma_wysokosc(lista: [], font: ImageFont.truetype) -> int or float:
-    suma_wysokosc = 0
-    for item in lista:
-        suma_wysokosc += font.getsize(item)[1]
-    return suma_wysokosc
 
 
 def polacz_zbyt_krotkie(lista: List[str], *limit_liter) -> List[str]:
@@ -96,35 +89,30 @@ def czcionka(**kwargs) -> (int and []):
     cytat_lista = textwrap.wrap(
         cytat, width=obecna_szerokosc_linii, fix_sentence_endings=True)
 
-    # dodaj marginesy procentowe
-    szerokosc = int(szerokosc/ZLOTY_PODZIAL)
-    wysokosc = int(wysokosc/ZLOTY_PODZIAL)
+    # dodaj marginesy procentowe jako 15% szerokosci
+    szerokosc = int(szerokosc - 0.15 * szerokosc)
+    wysokosc = int(wysokosc - 0.15 * szerokosc)
 
+    # gdzie duzy stosunek to stosunek szerokosci do wysokosci obrazka
     duzy_stosunek = szerokosc/wysokosc
+    # a maly stosunek to stosunek szerokosci do wysokosci tekstu
     maly_stosunek = 0
 
-    zbyt_szeroki = False # szerokosc_najdluzszej < szerokosc
-    zbyt_wysoki = False # wysokosc < wysokosc:
+    zbyt_szeroki = False
+    zbyt_wysoki = False
+    i = 1
 
     while True:
         print('|',end='')
-        # na poczatek 
+
         szerokosc_najdluzszej = font.getsize(max(cytat_lista, key=len))[0]
-        calkowita_wysokosc = suma_wysokosc(cytat_lista, font)
+        calkowita_wysokosc = sum([font.getsize(cytat)[1] for cytat in cytat_lista])
         zbyt_szeroki = szerokosc_najdluzszej > szerokosc
         zbyt_wysoki = calkowita_wysokosc > wysokosc
         maly_stosunek = szerokosc_najdluzszej / calkowita_wysokosc
-
-        # jesli szerszy niz nadana szerokosc
-        if zbyt_szeroki:
-            # zmniejsz ilosc liter w jednej linii
-            obecna_szerokosc_linii -= 2
-            
-        elif zbyt_wysoki:
-            # zwieksz ilosc liter w jednej linii
-            obecna_szerokosc_linii += 2
         
         roznica_stosunkow = abs(duzy_stosunek - maly_stosunek)
+
         # jesli roznica stosunku nadanej szerokosci do wysokosci
         # i stosunku szerokosci do wysokosci tekstu
         # jest w granicy 0.1 (WRAZLIWOSC_STOSUNKOW)
@@ -133,23 +121,36 @@ def czcionka(**kwargs) -> (int and []):
             # zakoncz szukanie
             break
 
+        # jesli szerszy niz nadana szerokosc
+        if zbyt_szeroki:
+            # zmniejsz ilosc liter w jednej linii 
+            obecna_szerokosc_linii -= 2
+            
+        elif zbyt_wysoki:
+            # zwieksz ilosc liter w jednej linii
+            obecna_szerokosc_linii += 2
+        
         # odswiez zmienne
         # podziel cytat na liste
         cytat_lista = textwrap.wrap(cytat, width=obecna_szerokosc_linii, fix_sentence_endings=True)
         if not (zbyt_szeroki and zbyt_wysoki):
-            font_size += 1
+            font_size += 1 
         else:
             font_size -= 1
         font = ImageFont.truetype(COMIC_SANS, font_size)
 
+        if i > 150:
+            print('!!! UWAGA PONAD 150 razy próbowano osiągnąć idealny rozkład tekstu !!!.\nPODDAJE SIĘ!!!')
+            break
+        i += 1
+
     return ImageFont.truetype(COMIC_SANS, font_size), cytat_lista
 
 def otworz_img() -> Image.open:
-    """Z założenia funkcja wywoływana tylko raz, więc wrzucam tutaj importy dla koncepcjonalnego zrozumienia."""
+    """Z założenia funkcja wywoływana tylko raz, więc wrzucam tutaj importy dla koncepcjonalnej prostoty."""
     
     import os
     img = None
-
 
     for file in os.listdir('output'):
         print(f'file: {file}')
@@ -158,18 +159,15 @@ def otworz_img() -> Image.open:
         if not file.endswith('.jpg'):
             continue
         
-        """  try:
-            img = Image.open(nazwa)  
-        except:
-            continue """
-        img = Image.open('output\\'+file)  
-        if img:
+        try:
+            img = Image.open('output\\'+file)
             return img
+        except:
+            continue
     
     # jesli nic nie znaleziono, wywal blad
     if img is None:
         raise Exception("Nie ma obrazka.")
-
 
 
 def zapisz_obrazek(**kwargs):
@@ -208,16 +206,16 @@ def zapisz_obrazek(**kwargs):
     # wybierzmy losowy kolor
     # niech to bedzie niezmienna lista 3 losowych liczb w tym przedziale
     # R, G, B
-    rand_color = tuple([random.randint(100, 255) for i in range(3)])
+    losowy_kolor = tuple([random.randint(100, 255) for i in range(3)])
 
-    cala_wysokosc = suma_wysokosc(cytat_lista, font)
+    cala_wysokosc = sum([font.getsize(cytat)[1] for cytat in cytat_lista])
 
     poczatkowa_wysokosc = height/2 - cala_wysokosc/2
 
     print(f'img height: {img.height}, img.width: {img.width}, font: {font.size}, cala_wysokosc: {cala_wysokosc}, poczatkowa_wysokosc: {poczatkowa_wysokosc}')
 
     offset = poczatkowa_wysokosc
-    outline_size = int(font.size/20)
+    outline_size = int(font.size/25)
     # pisz cytat
     for line in cytat_lista:
         # w - szerokosc danej linii tekstu
@@ -234,7 +232,7 @@ def zapisz_obrazek(**kwargs):
         # najpierw obrys
         narysuj_obrys(line, x, y, outline_size, font, draw)
         # potem tekst
-        draw.text((x, y), line, font=font, fill=rand_color)
+        draw.text((x, y), line, font=font, fill=losowy_kolor)
 
         # offset kontroluje wysokosc tekstu
         # za kazda linia tekstu zwieksza sie o wysokosc danej linii

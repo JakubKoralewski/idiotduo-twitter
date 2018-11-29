@@ -3,6 +3,13 @@
 string_val = False
 is_test = False
 
+
+""" # vscode debugger
+import sys
+sys.path.append('F:\\projects\\twitter_idiot_duo_bot\\idiotduobiblia_heroku')
+print(f'sys.path: {sys.path}\n') """
+
+
 def main(**kwargs):
 
     # for unit testing
@@ -36,12 +43,13 @@ def main(**kwargs):
         slownik_z_cytatem['ksiega'] = '420 6,9 XD'
     else:
         # inaczej 4real is happenink!
-        #try:
-        from bot.zdobadz_cytat import biblia_cytat
-        slownik_z_cytatem = biblia_cytat
-        """ except:
+        try:
+            from bot.zdobadz_cytat import biblia_cytat
+            slownik_z_cytatem = biblia_cytat
+            x = slownik_z_cytatem["cytat"]
+        except:
             from bot.slowo_na_dzis import slowo_na_dzis
-            slownik_z_cytatem = slowo_na_dzis   """
+            slownik_z_cytatem = slowo_na_dzis
         zapisz_obrazek(cytat=slownik_z_cytatem["cytat"].strip(), nazwa=nazwa)
 
 
@@ -82,7 +90,7 @@ def main(**kwargs):
 
     if not on_heroku:
         odp = input("Na pewno chcesz wstawic tweeta nie bedac na heroku?")
-        if odp not in ['yes', 'tak', 'y', 't']:
+        if odp.lower() not in ['yes']:
             print('Zdecydowales nie wstawiac tweeta.\nUWAGA! Wychodze!')
             return
     api.PostUpdate(status, 'klatka_ready.jpg')
