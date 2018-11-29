@@ -10,9 +10,8 @@ sys.path.append('F:\\projects\\twitter_idiot_duo_bot\\idiotduobiblia_heroku')
 print(f'sys.path: {sys.path}\n') """
 
 import os
-for root, dirs, files in os.walk(''):
-    for file in files:
-        print(f'file: {file}\n')
+for root, dirs, files in os.walk('\\'):
+    print(f'root: {root},\ndirs: {dirs},\nfiles: {files}')
 
 
 def main(**kwargs):
