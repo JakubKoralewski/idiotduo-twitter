@@ -15,7 +15,7 @@ print(f'sys.path: {sys.path}\n') """
 def main(**kwargs):
     import os
     print(f'cwd: {os.getcwd()}')
-    for root, dirs, files in os.walk('static\\'):
+    for root, dirs, files in os.walk(os.path.join(os.getcwd(),'\\static')):
         print(f'root: {root},\ndirs: {dirs},\nfiles: {files}')
     # for unit testing
     is_test = kwargs.get('test', False)
