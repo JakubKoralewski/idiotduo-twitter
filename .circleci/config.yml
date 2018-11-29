@@ -42,12 +42,13 @@ jobs:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
+      
+      - persist_to_workspace:
+          root: /tmp/dir
+          paths:
+            - static/
 
-      # run tests!
-      # this example uses Django's built-in test-runner
-      # other common Python testing frameworks include pytest and nose
-      # https://pytest.org
-      # https://nose.readthedocs.io
+      # odpal testy
       - run:
           name: run tests
           command: |
