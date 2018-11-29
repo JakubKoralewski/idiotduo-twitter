@@ -23,6 +23,14 @@ jobs:
     steps:
       - checkout
 
+      - attach_workspace:
+          at: ~/repo
+        
+      - persist_to_workspace:
+          root: ~/repo/static
+          paths:
+            - .
+
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -30,10 +38,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
         
-      - persist_to_workspace:
-          root: /home/circleci/repo/static
-          paths:
-            - .
+
           
 
       - run:
