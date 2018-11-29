@@ -44,9 +44,14 @@ jobs:
           key: v1-dependencies-{{ checksum "requirements.txt" }}
       
       - persist_to_workspace:
-          root: /
+          root: static/
           paths:
-            - static/
+            - comic_sans/
+            - chromedriver.exe
+            - ffmpeg.exe
+            - ffplay.exe
+            - ffprobe.exe
+            - slowo_na_dzis.txt
 
       # odpal testy
       - run:
