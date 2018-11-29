@@ -9,13 +9,14 @@ import sys
 sys.path.append('F:\\projects\\twitter_idiot_duo_bot\\idiotduobiblia_heroku')
 print(f'sys.path: {sys.path}\n') """
 
-import os
-for root, dirs, files in os.walk('\\'):
-    print(f'root: {root},\ndirs: {dirs},\nfiles: {files}')
+
 
 
 def main(**kwargs):
-
+    import os
+    print(f'cwd: {os.getcwd()}')
+    for root, dirs, files in os.walk('static\\'):
+        print(f'root: {root},\ndirs: {dirs},\nfiles: {files}')
     # for unit testing
     is_test = kwargs.get('test', False)
     nazwa = kwargs.get('nazwa', False)
