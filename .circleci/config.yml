@@ -52,7 +52,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            setup.py test
+            setup.py pytest
 
       - store_artifacts:
           path: tests/output
