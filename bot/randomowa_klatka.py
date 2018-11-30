@@ -34,7 +34,7 @@ def zapisz_klatke():
     ff = FFmpeg(
         # jesli istnieje environment path do ffmpeg (circleCI[nie zaimplementowano], heroku) to uzyj defaultowej wartosci 'ffmpeg'
         # inaczej dobierz ze .exe ze statica
-        executable = FFMPEG_PATH if 'ffmpeg' in os.environ else 'ffmpeg',
+        executable = FFMPEG_PATH if 'ffmpeg' not in os.environ else 'ffmpeg',
         inputs={urlPliku: inputs},
         outputs={os.path.join(os.getcwd(), "output", "klatka.jpg"): f'-ss {losowyCzas:.2f} -frames:v 1 -q:v 2'})
 
