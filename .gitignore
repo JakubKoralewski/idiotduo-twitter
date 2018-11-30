@@ -13,3 +13,5 @@ testtest*.py
 config_secret.py
 cProfile_log.txt
 cProfile_log
+
+docs/.ipynb_checkpoints/
