@@ -9,4 +9,4 @@ def test_10_klatka():
         
         Sprawdź czy wykonanie funkcji przekracza 2 minuty, jeśli tak to rzuć błąd.
         """
-        main(test=True, nazwa=os.path.join('tests','output', f'klatka_test_ready{i}.jpg')
+        main(test=True, nazwa=os.path.join('tests','output', f'klatka_test_ready{i}.jpg'))
