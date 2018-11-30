@@ -52,4 +52,5 @@ jobs:
             python setup.py test
 
       - store_artifacts:
-          path: tests/output
+          path: ~/repo/tests/output
+          destination: klatki
