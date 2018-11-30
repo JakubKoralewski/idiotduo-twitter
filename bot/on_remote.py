@@ -4,6 +4,6 @@ Zwraca informację czy skrypt znajduje się na heroku
 import os
 
 if 'api_key' in os.environ:
-    on_heroku = True
+    on_remote = True
 else:
-    on_heroku = False
+    on_remote = False

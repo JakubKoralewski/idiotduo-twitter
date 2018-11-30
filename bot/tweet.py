@@ -75,9 +75,9 @@ def main(**kwargs):
 
     # python-twitter
     import twitter
-    from bot.ids import on_heroku
+    from bot.ids import on_remote
 
-    if on_heroku:
+    if on_remote:
         import os
         consumer_key = os.environ['consumer_key']
         consumer_secret = os.environ['consumer_secret']
@@ -93,7 +93,7 @@ def main(**kwargs):
 
     print(api.VerifyCredentials)
 
-    if not on_heroku:
+    if not on_remote:
         odp = input("Na pewno chcesz wstawic tweeta nie bedac na heroku?")
         if odp.lower() not in ['yes']:
             print('Zdecydowales nie wstawiac tweeta.\nUWAGA! Wychodze!')

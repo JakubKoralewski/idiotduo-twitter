@@ -31,10 +31,11 @@ def zapisz_klatke():
     inputs = '-y -user_agent {user_agent}'
 
     from bot.config import FFMPEG_PATH
+    from bot.on_remote import on_remote
     ff = FFmpeg(
         # jesli istnieje environment path do ffmpeg (circleCI[nie zaimplementowano], heroku) to uzyj defaultowej wartosci 'ffmpeg'
         # inaczej dobierz ze .exe ze statica
-        executable = FFMPEG_PATH if 'ffmpeg' in os.environ else 'ffmpeg',
+        executable = FFMPEG_PATH if not on_remote else 'ffmpeg',
         inputs={urlPliku: inputs},
         outputs={os.path.join(os.getcwd(), "output", "klatka.jpg"): f'-ss {losowyCzas:.2f} -frames:v 1 -q:v 2'})
 

@@ -4,8 +4,8 @@ import json
 import os
 from time import sleep
 
-from bot.on_heroku import on_heroku
-if on_heroku:
+from bot.on_remote import on_remote
+if on_remote:
     api_key = os.environ['api_key']
 else:
     from bot.config_secret import api_key

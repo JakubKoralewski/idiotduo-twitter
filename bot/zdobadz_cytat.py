@@ -6,9 +6,9 @@ cytat już się załadował.
 """
 
 from selenium import webdriver
-from bot.on_heroku import on_heroku
+from bot.on_remote import on_remote
 
-if on_heroku:
+if on_remote:
     driver = webdriver.Chrome()
 else:
     from bot.config import WEB_DRIVER_PATH
