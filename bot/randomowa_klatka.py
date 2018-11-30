@@ -36,7 +36,7 @@ def zapisz_klatke():
         # inaczej dobierz ze .exe ze statica
         executable = FFMPEG_PATH if 'ffmpeg' in os.environ else 'ffmpeg',
         inputs={urlPliku: inputs},
-        outputs={os.path.join('output','klatka.jpg'): f'-ss {losowyCzas:.2f} -frames:v 1 -q:v 2'})
+        outputs={f'"{os.path.join("output", "klatka.jpg")}"': f'-ss {losowyCzas:.2f} -frames:v 1 -q:v 2'})
 
     print(ff.cmd)
     ff.run()
