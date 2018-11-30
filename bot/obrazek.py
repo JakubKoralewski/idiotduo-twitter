@@ -237,11 +237,7 @@ def zapisz_obrazek(**kwargs):
         # offset kontroluje wysokosc tekstu
         # za kazda linia tekstu zwieksza sie o wysokosc danej linii
         offset += font.getsize(line)[1]
-    if nazwa:
-        img.save(nazwa)
-    else:
-        img.save('klatka_ready.jpg')
-
+    img.save(nazwa if nazwa else 'klatka_ready.jpg')
 
 if __name__ == "__main__":
     print('To nie powinno sie wydarzyc!')
