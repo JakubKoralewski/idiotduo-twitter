@@ -7,13 +7,19 @@
 
 [PL] Losowy cytat z biblii / interesujące słownictwo + losowy moment z kanału Idiot Duo = najlepszy bot na Twitterze!
 
-## Jak działa
+## Działa na dwa sposoby
+
+### Pierwszy sposób
 
 [![Przykładowy tweet](https://i.imgur.com/64jXPWs.png)](https://twitter.com/idiot2duo/status/1054050784017612800)
 
-### Jak działa pod spodem
+### Drugi sposób
 
-Do stworzenia
+[![Przykładowy tweet numer 2](https://i.imgur.com/mvEVG7p.png)](https://twitter.com/idiot2duo/status/1060472290985631744)
+
+## Jak działa pod spodem
+
+![Jak działa](docs/0_jak_dziala.ipynb)
 
 ## Jak samemu postawić tego/takiego bota
 
