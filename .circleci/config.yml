@@ -9,7 +9,7 @@ jobs:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
 
-      - image: circleci/python:3.7.0-browsers
+      - image: jakubkoralewski/circleci-python-chrome-chromedriver-ffmpeg
         environment:
           PIPENV_VENV_IN_PROJECT: false
 
@@ -23,23 +23,12 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: install ffmpeg
-          command: |
-            sudo sh -c 'echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list'
-            apt update
-            apt install -y ffmpeg
-
-
       # Download and cache dependencies
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "requirements.txt" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-        
-
-          
+            - v1-dependencies-  
 
       - run:
           name: install dependencies
