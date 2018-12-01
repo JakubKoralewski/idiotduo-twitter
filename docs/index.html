@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Build Artifacts</title>
+
+</head>
+<body>
+    <h1>Build Artifacts</h1>
+
+    <div id="root"></div>
+    
+    <script>
+            // Create a request variable and assign a new XMLHttpRequest object to it.
+            var request = new XMLHttpRequest();
+            //request.setRequestHeader('Content-type','application/json')
+            // Open a new connection, using the GET request on the URL endpoint
+            request.open('GET', 'https://circleci.com/api/v1.1/project/github/JakubKoralewski/idiotduo-twitter/latest/artifacts?circle-token=:a11fa88200c13e526b775011c4ad845372de53ec', true);
+            
+            var data = null;
+
+            request.onload = function () {
+                // Begin accessing JSON data here
+                data = JSON.parse(request.response);
+                const app = document.querySelector('#root');
+
+                data.forEach(artifact => {
+                    img = document.createElement('img');
+                    img.src = artifact.url;
+                    app.appendChild(img);
+                });
+            }
+            // Send request
+            request.send();
+    </script>
+
+</body>
+</html>
