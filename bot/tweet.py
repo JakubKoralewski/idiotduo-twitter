@@ -114,5 +114,8 @@ if __name__ == '__main__':
     ilosc = args.ilosc
     if not ilosc:
         ilosc = 1
+    else:
+        print(f'Wybrales ilosc rowna {ilosc}.')
     for i in range(ilosc):
+        print(f'{i+1}. wykonanie.')
         main()
