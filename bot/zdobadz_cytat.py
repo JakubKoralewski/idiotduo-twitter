@@ -17,18 +17,20 @@ else:
     print(f'webpath: {WEB_DRIVER_PATH}')
     driver = webdriver.Chrome(executable_path=WEB_DRIVER_PATH)
 
-with driver:
-    driver.get('http://twojabiblia.pl/?page=quote')
-    cytat = driver.find_element_by_class_name('NS')
-    autor = driver.find_element_by_class_name('OS')
-    ksiega = driver.find_element_by_class_name('MS')
+def biblia_cytat():
 
-    biblia_cytat = {
-        'cytat': cytat.text,
-        'autor': autor.text,
-        'ksiega': ksiega.text,
-        'z': 'zdobadz_cytat'
-    }
+    with driver:
+        driver.get('http://twojabiblia.pl/?page=quote')
+        cytat = driver.find_element_by_class_name('NS')
+        autor = driver.find_element_by_class_name('OS')
+        ksiega = driver.find_element_by_class_name('MS')
+
+        return {
+            'cytat': cytat.text,
+            'autor': autor.text,
+            'ksiega': ksiega.text,
+            'z': 'zdobadz_cytat'
+        }
 
 #import re
 # Wyszukaj « » i dodaj na poczatek lub koniec jesli znajduje sie tylko jeden ALBO usuń?

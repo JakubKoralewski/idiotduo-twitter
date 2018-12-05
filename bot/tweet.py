@@ -48,11 +48,11 @@ def main(**kwargs):
         # inaczej 4real is happenink!
         try:
             from bot.zdobadz_cytat import biblia_cytat
-            slownik_z_cytatem = biblia_cytat
+            slownik_z_cytatem = biblia_cytat()
             x = slownik_z_cytatem["cytat"]
         except:
             from bot.slowo_na_dzis import slowo_na_dzis
-            slownik_z_cytatem = slowo_na_dzis
+            slownik_z_cytatem = slowo_na_dzis()
         zapisz_obrazek(cytat=slownik_z_cytatem["cytat"].strip(), nazwa=nazwa)
 
 
@@ -106,7 +106,7 @@ if __name__ == '__main__':
     parser.add_argument('--test', '-t', action='store_true',
                         help='dla testow lokalnych')
     # opcjonalnie automatycznie stworz podana ilosc tweetów
-    parser.add_argument('--ilosc', '-i', action='store_true', type=int,
+    parser.add_argument('--ilosc', '-i', type=int,
                         help='ile razy wykonac to cus')
     args = parser.parse_args()
     string_val = args.string
