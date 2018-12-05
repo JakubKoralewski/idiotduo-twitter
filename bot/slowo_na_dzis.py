@@ -3,8 +3,7 @@ import random
 import os
 from bot.config import SLOWO_NA_DZIS_PATH
 
-with open(SLOWO_NA_DZIS_PATH, 'r') as plik:
-    slowo_na_dzis = json.load(plik)
+
 
 def unormalizuj_wielkosc(text: str) -> str:
     text = text.lower()
@@ -23,6 +22,8 @@ def polacz_cytat_z_opisem(tytul, opis) -> str:
         return f'{tytul}, {nowy_opis}'
 
 def slowo_na_dzis():
+    with open(SLOWO_NA_DZIS_PATH, 'r') as plik:
+        slowo_na_dzis = json.load(plik)
 
     slowo_na_dzis = random.choice(slowo_na_dzis)
 
