@@ -90,8 +90,8 @@ def czcionka(**kwargs) -> (int and []):
         cytat, width=obecna_szerokosc_linii, fix_sentence_endings=True)
 
     # dodaj marginesy procentowe jako 15% szerokosci
-    szerokosc = int(szerokosc - 0.15 * szerokosc)
-    wysokosc = int(wysokosc - 0.15 * szerokosc)
+    szerokosc = int(szerokosc - 0.2 * szerokosc)
+    wysokosc = int(wysokosc - 0.2 * szerokosc)
 
     # gdzie duzy stosunek to stosunek szerokosci do wysokosci obrazka
     duzy_stosunek = szerokosc/wysokosc
@@ -130,19 +130,20 @@ def czcionka(**kwargs) -> (int and []):
             # zwieksz ilosc liter w jednej linii
             obecna_szerokosc_linii += 2
         
-        # odswiez zmienne
-        # podziel cytat na liste
-        cytat_lista = textwrap.wrap(cytat, width=obecna_szerokosc_linii, fix_sentence_endings=True)
         if not (zbyt_szeroki and zbyt_wysoki):
             font_size += 1 
         else:
             font_size -= 1
-        font = ImageFont.truetype(COMIC_SANS, font_size)
 
         if i > 150:
             print('!!! UWAGA PONAD 150 razy próbowano osiągnąć idealny rozkład tekstu !!!.\nPODDAJE SIĘ!!!')
             break
+        
+        # odswiez zmienne
         i += 1
+        font = ImageFont.truetype(COMIC_SANS, font_size)
+        # podziel cytat na liste
+        cytat_lista = textwrap.wrap(cytat, width=obecna_szerokosc_linii, fix_sentence_endings=True)
 
     return ImageFont.truetype(COMIC_SANS, font_size), cytat_lista
 
