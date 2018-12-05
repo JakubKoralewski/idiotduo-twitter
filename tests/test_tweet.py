@@ -10,3 +10,10 @@ def test_10_klatka():
         Sprawdź czy wykonanie funkcji przekracza 2 minuty, jeśli tak to rzuć błąd.
         """
         main(test=True, nazwa=os.path.join('tests','output', f'klatka_test_ready{i}.jpg'))
+
+def test_5_zdobadz_cytat():
+    for i in range(10, 15):
+        """
+        Sprawdź czy działa określony tryb, czyli selenium twojabiblia.pl/...
+        """
+        main(nazwa=os.path.join('tests','output', f'klatka_test_ready{i}.jpg'), typ='biblia_cytat')
