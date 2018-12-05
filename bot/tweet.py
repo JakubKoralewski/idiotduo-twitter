@@ -115,7 +115,7 @@ if __name__ == '__main__':
     parser.add_argument('--ilosc', '-i', type=int,
                         help='ile razy wykonac to cus')
     # czy slowo_na_dzis czy zdobadz_cytat
-    parser.add_argument('--typ',
+    parser.add_argument('--typ', '-x',
                         help='ile razy wykonac to cus')
 
     args = parser.parse_args()
