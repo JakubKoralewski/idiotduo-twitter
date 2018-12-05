@@ -12,13 +12,13 @@ print(f'sys.path: {sys.path}\n') """
 
 def main(**kwargs):
     import os
-    print(f'cwd: {os.getcwd()}')
+    """ print(f'cwd: {os.getcwd()}')
     for root, dirs, files in os.walk(os.path.join(os.getcwd(),'static')):
-        print(f'root: {root},\ndirs: {dirs},\nfiles: {files}')
+        print(f'root: {root},\ndirs: {dirs},\nfiles: {files}') """
     # for unit testing
     is_test = kwargs.get('test', False)
     nazwa = kwargs.get('nazwa', False)
-    typ = kwargs.get('typ', arg_typ)
+    typ = kwargs.get('typ', False)
 
     from bot.randomowa_klatka import zapisz_klatke
     zapisz_klatke()
@@ -47,7 +47,7 @@ def main(**kwargs):
         slownik_z_cytatem['ksiega'] = '420 6,9 XD'
     else:
         # inaczej 4real is happenink!
-        if typ in ['zdobadz_cytat', 'cytat', 'biblia_cytat']:
+        if (typ or arg_typ) in ['zdobadz_cytat', 'cytat', 'biblia_cytat']:
             from bot.zdobadz_cytat import biblia_cytat
             slownik_z_cytatem = biblia_cytat()
             x = slownik_z_cytatem["cytat"]
