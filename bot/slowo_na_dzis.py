@@ -1,8 +1,9 @@
 import json
 import random
 import os
+from bot.config import SLOWO_NA_DZIS_PATH
 
-with open('static\slowo_na_dzis.txt', 'r') as plik:
+with open(SLOWO_NA_DZIS_PATH, 'r') as plik:
     slowo_na_dzis = json.load(plik)
 
 slowo_na_dzis = random.choice(slowo_na_dzis)
