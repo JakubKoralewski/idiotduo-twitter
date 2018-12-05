@@ -18,7 +18,7 @@ def main(**kwargs):
     # for unit testing
     is_test = kwargs.get('test', False)
     nazwa = kwargs.get('nazwa', False)
-    typ = kwargs.get('typ', typ)
+    typ = kwargs.get('typ', arg_typ)
 
     from bot.randomowa_klatka import zapisz_klatke
     zapisz_klatke()
@@ -121,13 +121,15 @@ if __name__ == '__main__':
     args = parser.parse_args()
     string_val = args.string
     is_test = args.test
-    typ = args.typ
+    arg_typ = args.typ
 
     ilosc = args.ilosc
     if not ilosc:
         ilosc = 1
     else:
         print(f'Wybrales ilosc rowna {ilosc}.')
+    
     for i in range(ilosc):
-        print(f'{i+1}. wykonanie.')
+        if ilosc != 1:
+            print(f'{i+1}. wykonanie.')
         main()
