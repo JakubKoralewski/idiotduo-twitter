@@ -160,7 +160,7 @@ def otworz_img() -> Image.open:
             continue
         
         try:
-            img = Image.open(os.path.join('output',file))
+            img = Image.open(os.path.join(os.getcwd(),'output',file))
             return img
         except:
             continue
