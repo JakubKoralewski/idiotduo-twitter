@@ -2,6 +2,7 @@
 
 [![Obejrzyj jak działa na Twitterze!](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/idiot2duo)
 [![CircleCI](https://circleci.com/gh/JakubKoralewski/idiotduo-twitter/tree/master.svg?style=svg)](https://circleci.com/gh/JakubKoralewski/idiotduo-twitter/tree/master)
+[![CircleCI build artifacts](https://img.shields.io/badge/build%20artifacts-CI-blue.svg)](https://jakubkoralewski.github.io/idiotduo-twitter/)
 [![Docker Automated build dla CircleCI](https://img.shields.io/docker/automated/jakubkoralewski/circleci-python-chrome-chromedriver-ffmpeg.svg)](https://hub.docker.com/r/jakubkoralewski/circleci-python-chrome-chromedriver-ffmpeg/)
 [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/JakubKoralewski/idiotduo-twitter/blob/master/LICENSE)
 
