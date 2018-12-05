@@ -1,5 +1,5 @@
 tests\
-output\
+output\*
 docs\
 .gitignore
 .circleci\
