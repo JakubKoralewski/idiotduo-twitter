@@ -105,7 +105,14 @@ if __name__ == '__main__':
         '--string', '-s', help='sprecyzuj wybrany tekst (int or str)')
     parser.add_argument('--test', '-t', action='store_true',
                         help='dla testow lokalnych')
+    # opcjonalnie automatycznie stworz podana ilosc tweetów
+    parser.add_argument('--ilosc', '-i', action='store_true', type=int,
+                        help='ile razy wykonac to cus')
     args = parser.parse_args()
     string_val = args.string
     is_test = args.test
-    main()
+    ilosc = args.ilosc
+    if not ilosc:
+        ilosc = 1
+    for i in range(ilosc):
+        main()
