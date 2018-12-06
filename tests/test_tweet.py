@@ -16,4 +16,4 @@ def test_5_zdobadz_cytat():
         """
         Sprawdź czy działa określony tryb, czyli selenium twojabiblia.pl/...
         """
-        main(nazwa=os.path.join('tests','output', f'klatka_test_ready{i}.jpg'), typ='biblia_cytat')
+        main(test=True, nazwa=os.path.join('tests','output', f'klatka_test_ready{i}.jpg'), typ='biblia_cytat')
