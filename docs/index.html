@@ -209,11 +209,7 @@
                 var data = new Date(last_build_data.start_time);    
                 data = data.toLocaleDateString();
 
-                info_link.innerHTML += `Sprawdź ostatni build z ${data} na CircleCI.`;
-
-                
-                
-                
+                info_link.innerHTML += `Sprawdź build nr. ${last_build_data.build_num} z ${data} na CircleCI.`;  
             }
             // Send request
             last_build.send();
