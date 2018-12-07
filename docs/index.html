@@ -15,6 +15,7 @@
 
     a {
         text-decoration: none;
+        color: rgb(28, 109, 201);
     }
 
     a:hover {
@@ -79,6 +80,19 @@
         margin-right: 1rem;
     }
 
+    .commit {
+        margin-top: 0.7rem;
+    }
+
+    blockquote {
+        color: #05264c;
+        background-color: rgb(234, 245, 255);
+        border: 1px solid rgba(27,31,35,.15);
+        border-radius: 3px;
+        padding: 8px;
+        width: fit-content;
+    }
+
     #ilosc {
         grid-column: 2;
         width: min-content;
@@ -133,7 +147,9 @@
                 <h2> 
                     <a id="info_link" target="_blank"><img id="info_link" src="https://circleci.com/gh/JakubKoralewski/idiotduo-twitter/tree/master.svg?style=svg"></img></a>
                 </h2>
-                
+            </div>
+            <div class="commit">
+                Komentarz <a>commita: <blockquote></blockquote></a>
             </div>
 
         </div>
@@ -147,6 +163,7 @@
             const header = document.querySelector('header');
             const root = document.querySelector('#root');
             const nav = document.querySelector('.nav');
+            const commit = document.querySelector('.commit');
             //request.setRequestHeader('Content-type','application/json')
             // Open a new connection, using the GET request on the URL endpoint
             request.open('GET', 'https://circleci.com/api/v1.1/project/github/JakubKoralewski/idiotduo-twitter/latest/artifacts?circle-token=:a11fa88200c13e526b775011c4ad845372de53ec', true);
@@ -209,7 +226,10 @@
                 var data = new Date(last_build_data.start_time);    
                 data = data.toLocaleDateString();
 
-                info_link.innerHTML += `Sprawdź build nr. ${last_build_data.build_num} z ${data} na CircleCI.`;  
+                info_link.innerHTML += `Sprawdź build nr. ${last_build_data.build_num} z ${data} na CircleCI.`;
+
+                commit.querySelector('blockquote').innerHTML += last_build_data.subject;
+                commit.querySelector('a').setAttribute('href', last_build_data.all_commit_details[0].commit_url)   
             }
             // Send request
             last_build.send();
