@@ -1,5 +1,5 @@
 #import pytest
-from bot.tweet import main
+from bot.tweet import main, typ, nazwa, is_test
 import os
 
 def test_10_klatka():
