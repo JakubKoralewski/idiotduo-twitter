@@ -1,8 +1,5 @@
 """Ten plik bierze wszystkie dane wygenerowane przez poprzednie skrypty i umieszcza je na Twitterze.
 """
-string_val = False
-is_test = False
-typ = False
 
 
 """ # vscode debugger
@@ -12,14 +9,11 @@ print(f'sys.path: {sys.path}\n') """
 
 
 def main(**kwargs):
-    import os
-    """ print(f'cwd: {os.getcwd()}')
-    for root, dirs, files in os.walk(os.path.join(os.getcwd(),'static')):
-        print(f'root: {root},\ndirs: {dirs},\nfiles: {files}') """
-    # for unit testing
+
+    # for unit testing:
     is_test = kwargs.get('test', False)
     nazwa = kwargs.get('nazwa', False)
-    typ = kwargs.get('typ',typ)
+    typ = kwargs.get('typ', args.typ)
 
     from bot.randomowa_klatka import zapisz_klatke
     zapisz_klatke()
@@ -105,26 +99,26 @@ def main(**kwargs):
             return
     api.PostUpdate(status, 'klatka_ready.jpg')
 
+import argparse
+parser = argparse.ArgumentParser(description='Wytweetuj obrazek.')
+parser.add_argument(
+    '--string', '-s', help='sprecyzuj wybrany tekst (int or str)')
+parser.add_argument('--test', '-t', action='store_true',
+                    help='dla testow lokalnych')
+# opcjonalnie automatycznie stworz podana ilosc tweetów
+parser.add_argument('--ilosc', '-i', type=int,
+                    help='ile razy wykonac to cus')
+# czy slowo_na_dzis czy zdobadz_cytat
+parser.add_argument('--typ', '-x',
+                    help='ile razy wykonac to cus')
+
+args = parser.parse_args()
+string_val = args.string
+is_test = args.test
+typ = args.typ
+ilosc = args.ilosc
+
 if __name__ == '__main__':
-    import argparse
-    parser = argparse.ArgumentParser(description='Wytweetuj obrazek.')
-    parser.add_argument(
-        '--string', '-s', help='sprecyzuj wybrany tekst (int or str)')
-    parser.add_argument('--test', '-t', action='store_true',
-                        help='dla testow lokalnych')
-    # opcjonalnie automatycznie stworz podana ilosc tweetów
-    parser.add_argument('--ilosc', '-i', type=int,
-                        help='ile razy wykonac to cus')
-    # czy slowo_na_dzis czy zdobadz_cytat
-    parser.add_argument('--typ', '-x',
-                        help='ile razy wykonac to cus')
-
-    args = parser.parse_args()
-    string_val = args.string
-    is_test = args.test
-    typ = args.typ
-
-    ilosc = args.ilosc
     if not ilosc:
         ilosc = 1
     else:

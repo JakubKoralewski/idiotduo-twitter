@@ -1,5 +1,5 @@
 #import pytest
-from bot.tweet import main, typ, string_val, is_test
+from bot.tweet import main
 import os
 
 def test_10_klatka():
