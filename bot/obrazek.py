@@ -207,7 +207,7 @@ def zapisz_obrazek(**kwargs):
     # wybierzmy losowy kolor
     # niech to bedzie niezmienna lista 3 losowych liczb w tym przedziale
     # R, G, B
-    losowy_kolor = tuple([random.randint(100, 255) for i in range(3)])
+    losowy_kolor = tuple([random.randint(160, 255) for i in range(3)])
 
     cala_wysokosc = sum([font.getsize(cytat)[1] for cytat in cytat_lista])
 
