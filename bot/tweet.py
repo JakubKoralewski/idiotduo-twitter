@@ -2,7 +2,7 @@
 """
 string_val = False
 is_test = False
-typ = None
+typ = False
 
 
 """ # vscode debugger
@@ -19,7 +19,7 @@ def main(**kwargs):
     # for unit testing
     is_test = kwargs.get('test', False)
     nazwa = kwargs.get('nazwa', False)
-    typ = kwargs['typ'] if 'typ' in kwargs else typ
+    typ = kwargs.get('typ',typ)
 
     from bot.randomowa_klatka import zapisz_klatke
     zapisz_klatke()
