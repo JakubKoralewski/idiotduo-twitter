@@ -19,7 +19,7 @@ def main(**kwargs):
     # for unit testing
     is_test = kwargs.get('test', False)
     nazwa = kwargs.get('nazwa', False)
-    typ = kwargs.get('typ', typ)
+    typ = kwargs['typ'] if 'typ' in kwargs else typ
 
     from bot.randomowa_klatka import zapisz_klatke
     zapisz_klatke()
