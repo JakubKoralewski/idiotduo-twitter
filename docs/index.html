@@ -4,17 +4,142 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Build Artifacts</title>
+    <title>Testowe Obrazki</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: rgba(1, 25, 54, 1);     
+    }
 
+    a {
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: rgba(237, 37, 78, 1);
+        transition: all 200ms;
+    }
+
+    body {
+        background: linear-gradient(to bottom, rgb(126, 127, 129) 0%, rgb(70, 83, 98) 100%); 
+    }
+
+    header {
+        padding: 2rem 3rem;
+        margin-bottom: 2rem;
+        background-color: rgb(184, 185, 187);
+        display: grid;
+        grid-template-columns: 4fr 1fr;
+        grid-template-rows: 1;
+    }
+
+    h1 {
+        font-size: 3rem;
+        color: rgb(1, 55, 122);
+        grid-column: 1;
+    }
+
+    #opis {
+        font-size: 1.2rem;
+        margin-top: 0.4rem;
+        grid-column: 1;
+    }
+
+    #opis::after {
+        content: "";
+        height: 1px;
+        width: 30vw;
+        margin: 1rem 0;
+        background-color: black;
+        display: block;
+    }
+
+    #nav_line {
+        width: 10rem;
+        height: 2px;
+    }
+
+    #nav_line line {
+        stroke: black;
+    }
+
+    .nav {
+        display: flex;
+    }
+
+    .nav h2 {
+        margin-right: 1rem;
+    }
+
+    #ilosc {
+        grid-column: 2;
+        width: min-content;
+        margin: auto;
+    }
+
+    img {
+        max-width: 75vw;
+        border: 1rem solid rgba(1, 25, 54, 1);
+        border-radius: 5px;
+    }
+    #root {
+        display: block;
+        margin: auto 5vh;
+    }
+    .tekst {
+        display: flex;
+        margin-bottom: 0.2rem;
+    }
+
+    .numerek {
+        font-size: 1.8rem;
+        display: inline-block;
+        border: 5px solid rgba(237, 37, 78, 1);;
+        border-radius: 5px;
+        background-color: rgba(237, 37, 78, 1);;
+        padding: 5px 15px;
+    }
+
+    .tytul {
+        margin: auto 1rem;
+    }
+
+    .obrazek {
+        margin-bottom: 2rem;
+    } 
+
+
+    </style>
 </head>
 <body>
-    <h1>Build Artifacts</h1>
+    <header>
+        <div class="main">
+            <h1>Testowe obrazki</h1>
+            <p id="opis">
+                Obrazki wygenerowane przez CircleCI w czasie ostatniego testu.
+            </p>
+<!--             <svg id="nav_line">
+                    <line x1="0" y1="0" x2="200" y2="0"/>
+            </svg> -->
+            <div class="nav">
+                <h2> 
+                    <a id="info_link" target="_blank"></a>
+                </h2>
+            </div>
+
+        </div>
+    </header>
 
     <div id="root"></div>
     
     <script>
             // Create a request variable and assign a new XMLHttpRequest object to it.
             var request = new XMLHttpRequest();
+            const header = document.querySelector('header');
+            const root = document.querySelector('#root');
+            const nav = document.querySelector('.nav');
             //request.setRequestHeader('Content-type','application/json')
             // Open a new connection, using the GET request on the URL endpoint
             request.open('GET', 'https://circleci.com/api/v1.1/project/github/JakubKoralewski/idiotduo-twitter/latest/artifacts?circle-token=:a11fa88200c13e526b775011c4ad845372de53ec', true);
@@ -24,16 +149,67 @@
             request.onload = function () {
                 // Begin accessing JSON data here
                 data = JSON.parse(request.response);
-                const app = document.querySelector('#root');
 
-                data.forEach(artifact => {
+                data.forEach(function(artifact, i) {
+                    if (artifact.path == 'klatki/README.md') return;
+                    div = document.createElement('div');
+
                     img = document.createElement('img');
                     img.src = artifact.url;
-                    app.appendChild(img);
+
+                    tekst = document.createElement('div');
+                    tekst.setAttribute('class', 'tekst');
+
+                    numerek = document.createElement('div');
+                    numerek.setAttribute('class', 'numerek');
+                    numerek.innerText = i;
+                    tekst.appendChild(numerek);
+
+                    tytul = document.createElement('p');
+                    tytul.innerText = artifact.path;
+                    tytul.setAttribute('class', 'tytul');
+                    tekst.appendChild(tytul);
+                    
+                    
+                    div.appendChild(tekst);
+                    div.appendChild(img);
+                    div.setAttribute('class', 'obrazek');
+                    
+                    root.appendChild(div);
                 });
+
+                numerek = document.createElement('div');
+                numerek.setAttribute('class', 'numerek');
+                numerek.setAttribute('id', 'ilosc');
+                numerek.innerText = data.length;
+                numerek.setAttribute('title', 'Ilość obrazków.');
+                header.appendChild(numerek);
             }
             // Send request
             request.send();
+            var last_build = new XMLHttpRequest();
+            var last_build_data = null
+
+            last_build.open('GET', 'https://circleci.com/api/v1.1/project/github/JakubKoralewski/idiotduo-twitter?limit=1', true)
+            last_build.onload = function () {
+                // Begin accessing JSON data here
+                last_build_data = JSON.parse(last_build.response)[0];
+                build_url = last_build_data.build_url;
+                
+                info_link = document.querySelector('#info_link');
+                info_link.setAttribute('href', build_url);
+
+                var data = new Date(last_build_data.start_time);    
+                data = data.toLocaleDateString();
+
+                info_link.innerText = `Sprawdź ostatni build z ${data} na CircleCI.`;
+
+                
+                
+                
+            }
+            // Send request
+            last_build.send();
     </script>
 
 </body>
