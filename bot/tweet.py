@@ -2,6 +2,7 @@
 """
 string_val = False
 is_test = False
+typ = None
 
 
 """ # vscode debugger
@@ -18,7 +19,7 @@ def main(**kwargs):
     # for unit testing
     is_test = kwargs.get('test', False)
     nazwa = kwargs.get('nazwa', False)
-    typ = kwargs.get('typ', False)
+    typ = kwargs.get('typ', typ)
 
     from bot.randomowa_klatka import zapisz_klatke
     zapisz_klatke()
@@ -47,7 +48,7 @@ def main(**kwargs):
         slownik_z_cytatem['ksiega'] = '420 6,9 XD'
     else:
         # inaczej 4real is happenink!
-        if (typ or arg_typ) in ['zdobadz_cytat', 'cytat', 'biblia_cytat']:
+        if typ in ['zdobadz_cytat', 'cytat', 'biblia_cytat']:
             from bot.zdobadz_cytat import biblia_cytat
             slownik_z_cytatem = biblia_cytat()
             x = slownik_z_cytatem["cytat"]
@@ -121,7 +122,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     string_val = args.string
     is_test = args.test
-    arg_typ = args.typ
+    typ = args.typ
 
     ilosc = args.ilosc
     if not ilosc:
