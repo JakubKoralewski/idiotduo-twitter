@@ -233,7 +233,7 @@
                 info_link.innerHTML += `Sprawdź build nr. ${last_build_data.build_num} z ${data} na CircleCI.`;
 
                 commit.querySelector('blockquote').innerHTML += last_build_data.subject;
-                commit.querySelector('a').setAttribute('href', last_build_data.all_commit_details[0].commit_url)   
+                commit.querySelector('a').setAttribute('href', last_build_data.all_commit_details[last_build_data.all_commit_details.length-1].commit_url)   
             }
             // Send request
             last_build.send();
