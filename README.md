@@ -8,6 +8,8 @@
 
 [PL] Losowy cytat z biblii / interesujące słownictwo + losowy moment z kanału Idiot Duo = najlepszy bot na Twitterze!
 
+*<small>[EN comment] I have since regretted using the Polish language on GitHub; however, my thenceforth stance was that I was using the Polish language for: the Bible quotes, the dictionary quotes, the Twitter account; alongwith the YouTube channel being in Polish. As a cause of this the README, variable names and comments are in Polish. Checkout my other repos for English content!</small>*
+
 ## Działa na dwa sposoby
 
 ### Pierwszy sposób
