@@ -1,6 +1,9 @@
 import pytest
-from bot.slowo_na_dzis import *
+from bot.text_src import slowo_na_dzis
+from bot.config import SLOWO_NA_DZIS_PATH
+from .utils.assert_quote import assert_quote_slowo_na_dzis
 from pprint import pprint
+import json
 
 def test_get_offline():
     """
@@ -22,9 +25,4 @@ def test_all_fields_exist_in_the_json_file():
         slowo_na_dzis = json.load(plik)
     for cytat in slowo_na_dzis:
         pprint(cytat)
-        assert cytat['autor']
-        assert cytat['autor'] != '' 
-        assert cytat['opis'] 
-        assert cytat['opis'] != ''
-        assert cytat['tytul'] 
-        assert cytat['tytul'] != ''
+        assert_quote_slowo_na_dzis(cytat)

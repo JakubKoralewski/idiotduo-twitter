@@ -28,7 +28,7 @@ def zapisz_klatke(**args):
 	if not url:
 		ids = args.get('ids')
 		if not ids:
-			from bot.ids import ids
+			from .ids import ids
 		url = random.choice(ids)
 
 	ydl_opts = {
@@ -42,7 +42,7 @@ def zapisz_klatke(**args):
 		response = zapisz_jedna_klatke(url=url, ydl=ydl)
 		if response == FrameDownloadAnswer.TryElse:
 			if not ids:
-				from bot.ids import ids
+				from .ids import ids
 			ids.remove(url)
 			url = random.choice(ids)
 			return zapisz_klatke(url=url)
