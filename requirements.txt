@@ -1,7 +1,7 @@
 Pillow==5.2.0
 python-twitter==3.4.2
 urllib3==1.23
-youtube-dl>=2018.10.5
+youtube-dl>=2019.07.16
 ffmpy==0.2.2
 selenium==3.14.1
 sentry-sdk==0.10.2
