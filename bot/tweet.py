@@ -1,6 +1,15 @@
 """Ten plik bierze wszystkie dane wygenerowane przez poprzednie skrypty i umieszcza je na Twitterze.
 """
 
+from bot.on_remote import on_remote
+if on_remote:
+	import sentry_sdk
+	import os
+	sentry_url = os.environ['SENTRY_URL']
+	sentry_sdk.init(sentry_url)
+
+test_sentry = 1 / 0
+
 
 """ # vscode debugger
 import sys
