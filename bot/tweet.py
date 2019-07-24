@@ -130,7 +130,6 @@ if __name__ == '__main__':
 		import os
 		sentry_url = os.environ['SENTRY_URL']
 		sentry_sdk.init(sentry_url)
-	test_sentry = 1 / 0
 
 	if not ilosc:
 		ilosc = 1
