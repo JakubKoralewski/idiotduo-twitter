@@ -8,7 +8,17 @@
 
 [PL] Losowy cytat z biblii / interesujące słownictwo + losowy moment z kanału Idiot Duo = najlepszy bot na Twitterze!
 
-*<small>[EN comment] I have since regretted using the Polish language on GitHub; however, my thenceforth stance was that I was using the Polish language for: the Bible quotes, the dictionary quotes, the Twitter account; alongwith the YouTube channel being in Polish. As a cause of this the README, variable names and comments are in Polish. Checkout my other repos for English content!</small>*
+[EN] I have since regretted using the Polish language on GitHub; however, all the content related with this repo is in Polish which heavily contributed to my choice. Because of this the code is using Polish variable names and comments. For a quick overview check out this small description:
+
+<details>
+<summary> English description</summary>
+
+This Python app runs on Heroku and posts images with funny quotes on them on Twitter. I am using Selenium WebDrivers to get Bible quotes online, youtube-dl and ffmpy (FFmpeg) to download single frames of videos from my YouTube channel, PIL (Pillow) to overlay text on images, Sentry to log errors and pytest for testing.
+Both Twitter APIs and YouTube APIs are leveraged. In case getting the Bible quotes online I also have an offline alternative in `static/slowo_na_dzis.json` which is a collection of lexical fun facts in Polish.
+
+Checkout my other repos for English content! I was only starting my GitHub career when creating this repo and I should've used English.
+</details> 
+
 
 ## Działa na dwa sposoby
 
