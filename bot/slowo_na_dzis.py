@@ -18,8 +18,9 @@ def polacz_cytat_z_opisem(tytul, opis) -> str:
 
     """
     if opis[0].isupper():
-        nowy_opis = opis[0].lower() + opis[1:]
-        return f'{tytul}, {nowy_opis}'
+        opis = opis[0].lower() + opis[1:]
+
+    return f'{tytul}, {opis}'
 
 def slowo_na_dzis():
     with open(SLOWO_NA_DZIS_PATH, 'r') as plik:
