@@ -23,7 +23,7 @@ def polacz_cytat_z_opisem(tytul, opis) -> str:
     return f'{tytul}, {opis}'
 
 def slowo_na_dzis():
-    with open(SLOWO_NA_DZIS_PATH, 'r') as plik:
+    with open(SLOWO_NA_DZIS_PATH, 'r', encoding='UTF-8') as plik:
         slowo_na_dzis = json.load(plik)
 
     slowo_na_dzis = random.choice(slowo_na_dzis)
