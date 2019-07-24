@@ -10,7 +10,10 @@ cProfile_log.txt
 cProfile_log
 *.jpg
 *.json
+!slowo_na_dzis.json
 docs/.ipynb_checkpoints/
+
+.history
 
 # w ten plik wlozylbys klucze do api twittera dla lokalnych testow
 config_secret.py
