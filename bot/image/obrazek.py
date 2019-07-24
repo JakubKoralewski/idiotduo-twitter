@@ -190,8 +190,7 @@ def zapisz_obrazek(**kwargs):
 	else:
 		print('cytat NIEnadpisany, zdobywam tradycyjnymi sposobami')
 	
-	# zawsze jest podawana (domyslnie False), dlatego nie używam __dict__.get()
-	nazwa = kwargs["nazwa"]
+	nazwa = kwargs.get("nazwa", False)
 	print(f'cytat: {cytat}', end='')
 	
 	img = otworz_img()

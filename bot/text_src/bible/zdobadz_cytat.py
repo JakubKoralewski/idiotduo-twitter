@@ -9,7 +9,7 @@ from selenium import webdriver
 from bot.on_remote import on_remote
 
 
-def biblia_cytat():
+def zdobadz_cytat():
 	if on_remote:
 		driver = webdriver.Chrome()
 	else:
