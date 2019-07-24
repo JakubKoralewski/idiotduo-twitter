@@ -12,7 +12,7 @@ def test_get_offline():
 	for i in range(5):
 		cytat = slowo_na_dzis()
 		pprint(cytat)
-		assert_quote(cytat)
+		assert_quote_slowo_na_dzis(cytat)
 
 def test_all_fields_exist_in_the_json_file():
 	"""
