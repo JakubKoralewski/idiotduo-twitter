@@ -8,11 +8,18 @@ print(f'sys.path: {sys.path}\n') """
 
 
 def main(**kwargs):
-
-	# for unit testing:
+	args = kwargs.get('args')
 	is_test = kwargs.get('test', False)
-	nazwa = kwargs.get('nazwa', False)
-	typ = kwargs.get('typ', args.typ)
+	nazwa = kwargs.get('nazwa', None)
+	typ = kwargs.get('typ', None)
+	string_val = kwargs.get('string_val', None)
+	
+	# for unit testing:
+	if args:
+		is_test = args.test
+		nazwa = args.nazwa
+		typ = args.typ
+		string_val = args.string_val
 
 	from bot.randomowa_klatka import zapisz_klatke
 	zapisz_klatke()
@@ -93,8 +100,9 @@ def main(**kwargs):
 
 	if not on_remote:
 		odp = input("Na pewno chcesz wstawic tweeta nie bedac na heroku?")
-		if odp.lower() not in ['yes']:
+		if odp.lower() not in ['yes', 'tak']:
 			print('Zdecydowales nie wstawiac tweeta.\nUWAGA! Wychodze!')
+			input()
 			return
 	api.PostUpdate(status, 'klatka_ready.jpg')
 
@@ -111,13 +119,11 @@ if __name__ == '__main__':
 						help='ile razy wykonac to cus')
 	# czy slowo_na_dzis czy zdobadz_cytat
 	parser.add_argument('--typ', '-x',
-						help='ile razy wykonac to cus')
+						help='czy slowo_na_dzis czy zdobadz_cytat')
 
 	args = parser.parse_args()
-	string_val = args.string
-	is_test = args.test
-	typ = args.typ
 	ilosc = args.ilosc
+
 	from bot.on_remote import on_remote
 	if on_remote:
 		import sentry_sdk
@@ -134,4 +140,4 @@ if __name__ == '__main__':
 	for i in range(ilosc):
 		if ilosc != 1:
 			print(f'{i+1}. wykonanie.')
-		main()
+		main(args=args)

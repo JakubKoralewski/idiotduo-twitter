@@ -21,7 +21,11 @@ def biblia_cytat():
 
 	with driver:
 		driver.get('http://twojabiblia.pl/?page=quote')
-		cytat = driver.find_element_by_class_name('NS')
+		try:
+			cytat = driver.find_element_by_class_name('NS')
+		except selenium.common.exceptions.NoSuchElementException as e:
+			print(f'HTML: {driver.page_source}')
+			raise e
 		autor = driver.find_element_by_class_name('OS')
 		ksiega = driver.find_element_by_class_name('MS')
 

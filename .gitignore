@@ -12,6 +12,7 @@ cProfile_log
 *.json
 !slowo_na_dzis.json
 docs/.ipynb_checkpoints/
+debug.log
 
 .history
 
