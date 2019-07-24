@@ -1,7 +1,8 @@
-#import pytest
+import pytest
 from bot.tweet import main
 import os
 
+@pytest.mark.webtest
 def test_10_klatka():
     for i in range(10):
         """
@@ -11,6 +12,7 @@ def test_10_klatka():
         """
         main(test=True, nazwa=os.path.join('tests','output', f'klatka_test_ready{i}.jpg'))
 
+@pytest.mark.webtest
 def test_5_zdobadz_cytat():
     for i in range(10, 15):
         """
