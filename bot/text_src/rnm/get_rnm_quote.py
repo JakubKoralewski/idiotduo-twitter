@@ -9,6 +9,12 @@ from .translate import translate
 
 OPTIMAL_CHARACTER_COUNT = 200
 
+def _replace_names(quote):
+	return quote.replace("Rick", "Ryszard").replace("Morty", "Mortymer")
+
+def _add_quotes(quote):
+	return f'“{quote}”'
+
 def get_rnm_quote():
 	if on_remote:
 		driver = webdriver.Chrome()
@@ -63,18 +69,22 @@ def get_rnm_quote():
 			if quote[0] in f"{punctuation} ":
 				# Remove punctuation and spaces at the beginning
 				quote = quote[1:]
+		if quote[-1] == " ":
+			quote = quote[:-1]
 		if quote[-1] not in punctuation:
 			# Add punctuation at the end
 			quote = quote + "."
 		
 		print(f'quote before translating:\n{quote}')
-		quote = translate(quote, lang="pl")
+		quote = translate(quote, lang="en-pl")
 		print(f'quote:\n{quote}')
+			
+		quote = _add_quotes(_replace_names(quote))
 
 		return {
 			'cytat': quote,
 			'autor': "Księga Ryszarda i Mortymera",
-			'ksiega': f"{translate(episode_title, lang='pl')} {season}, {episode}",
+			'ksiega': f"{translate(episode_title, lang='en-pl')} {season}, {episode}",
 			'z': 'rick_and_morty'
 		}
 		
