@@ -1,4 +1,4 @@
-Pillow==5.2.0
+Pillow==6.2.0
 python-twitter==3.4.2
 urllib3==1.23
 youtube-dl>=2019.07.16
