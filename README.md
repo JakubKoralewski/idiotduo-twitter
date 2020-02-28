@@ -20,21 +20,46 @@ Checkout my other repos for English content! I was only starting my GitHub caree
 
 </details> 
 
+## Development
 
-## Działa na dwa sposoby
+Install requirements: `pip install -r requirements.txt`. Advisable to use venv.
 
-### Pierwszy sposób
+You need to create a `config_secret.py` in the `bot` directory, with the following values:
+```python
+api_key = ''
+consumer_key = ''
+consumer_secret = ''
+access_token = ''
+access_token_secret = ''
+sentry_url = ''
+yandex_api = ''
+```
 
-[![Przykładowy tweet](https://i.imgur.com/64jXPWs.png)](https://twitter.com/idiot2duo/status/1054050784017612800)
+You also need to download the `chromedriver.exe` for local development if you don't use Docker.
+I downloaded it from [here](https://chromedriver.chromium.org/downloads) and put it in my `static` folder.
+You need Google Chrome installed for this to work. Also make sure the version of the driver you download supports
+the Chrome browser version you have installed on your Windows machine.
 
-### Drugi sposób
+Do the same for `ffmpeg.exe` which you can download [here](https://www.ffmpeg.org/download.html).
+Put it in the `static` directory.
 
-[![Przykładowy tweet numer 2](https://i.imgur.com/mvEVG7p.png)](https://twitter.com/idiot2duo/status/1060472290985631744)
+The production server uses a Linux-based OS and will not use Windows' executables, this is only for development purposes. 
+Only Windows has been tested and verified to be a usable development system. 
+Feel free to hack the Dockerfile for your liking.
 
-## Jak działa pod spodem
+## Testing
 
-![Jak działa](docs/0_jak_dziala.ipynb)
+You should now be able to verify everything is working as it should by running the following:
 
-## Jak samemu postawić tego/takiego bota
+*Running the test will open the Chrome browser periodically as it tests certain functions related
+to Selenium, don't freak out.*
 
-Do stworzenia
+```sh
+py.test
+```
+
+You may add `-n NUM` where `NUM` is the amount of cores you want to use in parallel (or `auto`).
+
+After the tests finish successfully you'll be left with 15 test images in `tests/output` that
+are stored [here](https://jakubkoralewski.github.io/idiotduo-twitter/) on each CI build.
+

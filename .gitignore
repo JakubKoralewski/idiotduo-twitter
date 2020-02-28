@@ -1,4 +1,6 @@
 # smieci
+.idea
+venv
 .vscode/
 env/
 __pycache__/

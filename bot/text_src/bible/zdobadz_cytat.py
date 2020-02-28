@@ -6,6 +6,10 @@ cytat już się załadował.
 """
 
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common import by
+from selenium.common import exceptions
 from bot.on_remote import on_remote
 
 
@@ -22,8 +26,8 @@ def zdobadz_cytat():
 	with driver:
 		driver.get('http://twojabiblia.pl/?page=quote')
 		try:
-			cytat = driver.find_element_by_class_name('NS')
-		except selenium.common.exceptions.NoSuchElementException as e:
+			cytat = WebDriverWait(driver, 10).until(EC.presence_of_element_located((by.By.CLASS_NAME, 'NS')))
+		except exceptions.TimeoutException as e:
 			print(f'HTML: {driver.page_source}')
 			raise e
 		autor = driver.find_element_by_class_name('OS')

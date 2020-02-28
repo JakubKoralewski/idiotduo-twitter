@@ -50,7 +50,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            pytest -v
+            pytest -v --full-trace -n 2
 
       - store_artifacts:
           path: ~/repo/tests/output

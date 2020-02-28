@@ -15,7 +15,6 @@ Aby to rozwiazac nalezaloby obliczyc sredni kolor w obrazku i wybrac kolor "prze
 """
 
 import random
-import PIL
 import PIL.Image as Image
 import PIL.ImageDraw as ImageDraw
 import PIL.ImageFont as ImageFont
@@ -26,15 +25,15 @@ from bot.config import COMIC_SANS_PATH
 COMIC_SANS = COMIC_SANS_PATH + 'comic.ttf'
 WRAZLIWOSC_STOSUNKOW = 0.19
 
-def narysuj_obrys(text, x, y, outline_size, font, draw):
-	draw.text((x-outline_size, y-outline_size), text, font=font, fill="black")
-	draw.text((x+outline_size, y-outline_size), text, font=font, fill="black")
-	draw.text((x+outline_size, y+outline_size), text, font=font, fill="black")
-	draw.text((x-outline_size, y+outline_size), text, font=font, fill="black")
-	draw.text((x-outline_size, y), text, font=font, fill="black")
-	draw.text((x+outline_size, y), text, font=font, fill="black")
-	draw.text((x, y+outline_size), text, font=font, fill="black")
-	draw.text((x, y-outline_size), text, font=font, fill="black")
+# def narysuj_obrys(text, x, y, outline_size, font, draw):
+# 	draw.text((x-outline_size, y-outline_size), text, font=font, fill="black")
+# 	draw.text((x+outline_size, y-outline_size), text, font=font, fill="black")
+# 	draw.text((x+outline_size, y+outline_size), text, font=font, fill="black")
+# 	draw.text((x-outline_size, y+outline_size), text, font=font, fill="black")
+# 	draw.text((x-outline_size, y), text, font=font, fill="black")
+# 	draw.text((x+outline_size, y), text, font=font, fill="black")
+# 	draw.text((x, y+outline_size), text, font=font, fill="black")
+# 	draw.text((x, y-outline_size), text, font=font, fill="black")
 
 
 def polacz_zbyt_krotkie(lista: List[str], *limit_liter) -> List[str]:
@@ -215,7 +214,7 @@ def zapisz_obrazek(**kwargs):
 	print(f'img height: {img.height}, img.width: {img.width}, font: {font.size}, cala_wysokosc: {cala_wysokosc}, poczatkowa_wysokosc: {poczatkowa_wysokosc}')
 
 	offset = poczatkowa_wysokosc
-	outline_size = int(font.size/25)
+	outline_size = int(font.size/15)
 	# pisz cytat
 	for line in cytat_lista:
 		# w - szerokosc danej linii tekstu
@@ -230,9 +229,9 @@ def zapisz_obrazek(**kwargs):
 		y = offset
 
 		# najpierw obrys
-		narysuj_obrys(line, x, y, outline_size, font, draw)
+		#narysuj_obrys(line, x, y, outline_size, font, draw)
 		# potem tekst
-		draw.text((x, y), line, font=font, fill=losowy_kolor)
+		draw.text((x, y), line, font=font, fill=losowy_kolor, stroke_width=outline_size, stroke_fill="black")
 
 		# offset kontroluje wysokosc tekstu
 		# za kazda linia tekstu zwieksza sie o wysokosc danej linii

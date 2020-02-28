@@ -25,7 +25,7 @@ def main(**kwargs):
 		typ = args.typ
 		string_val = args.string
 
-	zapisz_klatke()
+	zapisz_klatke(seed=typ if isinstance(typ, int) else None)
 	slownik_z_cytatem = {}
 
 	# jesli dostarczono argument --string

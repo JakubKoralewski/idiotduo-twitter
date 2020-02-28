@@ -2,7 +2,11 @@
 Ten plik zdobywa randomową klatkę z filmow Idiot Duo i zapisuje ja do pliku 'klatka.jpg'
 """
 
-from pprint import pprint
+import os
+import random
+import youtube_dl
+from ffmpy import FFmpeg
+
 class FrameDownloadError(Exception):
 	def __init__(self, message):
 		super().__init__(message)
@@ -15,20 +19,13 @@ class FrameDownloadAnswer:
 	def Error(message):
 		return FrameDownloadError(message)
 
+def zapisz_klatke(url=None,ids=None,seed=None):
+	if not ids:
+		from .ids import ids
 
-import os
-import random
-import youtube_dl
-from ffmpy import FFmpeg
-
-
-def zapisz_klatke(**args):
-	url = args.get('url')
-	ids = None
 	if not url:
-		ids = args.get('ids')
-		if not ids:
-			from .ids import ids
+		if seed is not None:
+			random.seed(seed*seed + seed)
 		url = random.choice(ids)
 
 	ydl_opts = {
